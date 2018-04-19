@@ -1,0 +1,10 @@
+[% WRAPPER ui title = loc("Registered!") %]
+<div class="container npwsingle">
+	<section  class="fsection section__registered">
+		<div class="section-content-wrapper">
+			<h2>Registered</h2>
+				<p>[% loc('Congratulations, you are now registered', login, clear_passwd) %]</p>
+		</div>
+	</section>
+</div>
+[% END %]

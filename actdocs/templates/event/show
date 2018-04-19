@@ -1,0 +1,34 @@
+[% WRAPPER ui title = title %]
+<div class="container npwsingle">
+	<section id="register" class="fsection section__event">
+		<div class="section-content-wrapper">
+		  	<h2>Event</h2>
+
+			<p>
+			  <b>{{Date:}}</b>
+			  [% IF datetime ; date_format(datetime, 'datetime_full') ; ELSE %]
+			  {{Not scheduled yet.}}[% END %]<br />
+
+			<b>{{Duration:}}</b> [% duration %]
+			   {{minutes}}<br />
+			[% IF global.request.user.is_talks_admin %]
+			(<a href="[% make_uri('editevent', 'event_id', event_id) %]">{{edit}}</a>)
+			[% END %]
+			</p>
+
+			[% IF url_abstract %]
+			<p>{{You can find more information on the following site:}}</p>
+			 <ul>
+			   <li>
+			         <a href="[% url_abstract %]">[% url_abstract %]</a>
+			   </li>
+			 </ul>
+			[% END %]
+
+			<p>
+			[% expand(chunked_abstract) | html_line_break %]
+			</p>
+			[%END %]
+		</div>
+	</section>
+</div>

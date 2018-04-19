@@ -1,0 +1,12 @@
+[% WRAPPER ui title = loc("Talk submitted") %]
+<div class="container npwsingle">
+	<section id="register" class="fsection section__register">
+		<div class="section-content-wrapper">
+			<h2>Talk added</h2>
+			<p>
+			 [% loc("Thanks, your talk submission has been recorded as", make_uri_info('talk', talk_id), title) %]
+			</p>
+		</div>
+	</section>
+</div>
+[% END %]

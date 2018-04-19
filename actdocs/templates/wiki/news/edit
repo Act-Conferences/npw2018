@@ -1,0 +1,98 @@
+[% WRAPPER ui title = loc("Edit a news item") %]
+
+[% IF preview;
+     FOREACH lang = global.config.languages.keys;
+       IF global.config.languages.keys.size > 1 %]
+         <h2>[% global.config.languages.$lang.name %]</h2>
+       [% END %]
+       <div class="newsbox">
+         [% preview.$lang %]
+       </div>
+     [% END;
+END %]
+
+<div align="center">
+
+[% msgs = {
+     ERR_TITLE          => loc("You must enter a title"),
+     ERR_TEXT           => loc("You must enter some text"),
+     ERR_DATE           => loc("The supplied date is invalid"),
+     ERR_TIME           => loc("The supplied time is invalid"),
+  };
+  FOREACH err = errors;
+    WRAPPER error_ui;
+      msgs.${err.list.0};
+      IF err.list.1;
+        ' ('; global.config.languages.${err.list.1}.name; ')';
+      END;
+    END;
+  END;
+%]
+
+<form method="POST" action="[% global.request.r.uri %]">
+[% IF news_id %]
+<input type="hidden" name="news_id" value="[% news_id %]" />
+<p>
+<input type="checkbox" name="delete" id="form-delete" />
+<label for="form-delete">{{Delete this item}}</label>
+</p>
+[% END %]
+<table border="1" cellpadding="10" cellspacing="0"><tr><td>
+<table border="0" cellpadding="0" cellspacing="10">
+<tr>
+  <td align="right"><label for="form-date">{{Date}}</label></td>
+  <td>&nbsp;</td>
+  <td>
+    <input type="text" name="date" id="form-date" value="[% date %]" size="10" maxlength="10" />
+   <label for="form-time">{{Time}}</label>
+    <input type="text" name="time" id="form-time" value="[% time %]" size="5" maxlength="5" />
+  </td>
+</tr>
+[% FOREACH lang = global.config.languages.keys;
+     IF global.config.languages.keys.size > 1 %]
+<tr>
+  <td colspan="3"><strong>[% global.config.languages.$lang.name %]</strong></td>
+</tr>
+[% END %]
+<tr>
+  <td align="right"><label for="form-title">{{Title}}</label></td>
+  <td>&nbsp;</td>
+  <td>
+    <input type="text" name="title_[% lang %]" id="form-title" value="[% items.$lang.title %]" size="51" maxlength="100" />
+  </td>
+</tr>
+<tr>
+  <td align="right" valign="top">
+  {{Text}}</td>
+  <td>&nbsp;</td>
+  <td>
+    <font size="-1">{{Use HTML to format text. Text between newlines will be turned into paragraphs}}</font><br />
+    <textarea name="text_[% lang %]" cols="60" rows="10">[% items.$lang.text | form_unescape %]</textarea>
+  </td>
+</tr>
+[% END %]
+<tr>
+  <td align="right" valign="top">{{Published}}</td>
+  <td>&nbsp;</td>
+  <td>
+    <input type="radio" name="published" value="1" [% "checked" IF published %] /> {{Yes}}
+    <input type="radio" name="published" value="0" [% "checked" UNLESS published %] /> {{No}}
+  </td>
+</tr>
+
+
+   </td>
+</tr>
+<tr>
+   <td colspan="3" align="right">
+      <input type="submit" name="preview" value="{{Preview}}" />
+      <input type="submit" name="save" value="{{Save}}" />
+   </td>
+</tr>
+</table>
+</td></tr></table>
+
+</form>
+</div>
+
+[% END %]

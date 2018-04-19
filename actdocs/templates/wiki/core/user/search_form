@@ -1,0 +1,65 @@
+[% WRAPPER ui title = loc('Search for users') %]
+
+<form method="POST" action="[% global.request.r.uri %]" id="user-search">
+
+
+{{Search form}}
+
+<table>
+<tr>
+	 <td><label for="user-name">{{Name}}</label></td>
+	 <td>
+			<input type="text" name="name" id="user-name" value="[% global.request.args.name %]" size="25" maxlength="60" />
+	 </td>
+</tr>
+<tr>
+	 <td><label for="user-town">{{City}}</label></td>
+	 <td>
+			<input type="text" name="town" id="user-town" value="[% global.request.args.town %]" size="25" maxlength="60" />
+	 </td>
+</tr>
+<tr>
+	 <td><label for="user-country">{{Country}}</label></td>
+	 <td>
+			<select name="country" id="user-country">
+				 <option value=""[% ' selected="selected"' UNLESS global.request.args.country %]>{{Any}}</option>
+				 [% FOREACH c = countries %]
+						<option value="[% c.iso %]"[% ' selected="selected"' IF global.request.args.country == c.iso %]>[% c.name %]</option>
+				 [% END %]
+			</select>
+	 </td>
+</tr>
+<tr>
+	 <td><label for="user-group">{{Monger group}}</label></td>
+	 <td>
+			<select name="pm_group" id="user-group">
+				 <option value=""[% ' selected="selected"' UNLESS global.request.args.pm_group %]>{{Any}}</option>
+				 [% FOREACH g = pm_groups %]
+						<option value="[% g %]"[% ' selected="selected"' IF global.request.args.pm_group == g %]>[% g %]</option>
+				 [% END %]
+			</select>
+	 </td>
+</tr>
+</table>
+
+<input type="submit" name="search" value="{{Search}}" />
+
+</fieldset>
+
+[% PROCESS user/list IF users %]
+
+<br />
+
+[% IF prev %]
+	<input type="hidden" name="oprev" value="[% oprev %]" />
+	<input type="submit" name="prev"  value="&lt;&lt;" />
+[% END %]
+[% IF next %]
+	[% "&nbsp;&nbsp;&nbsp;" IF oprev %]
+	<input type="hidden" name="onext" value="[% onext %]" />
+	<input type="submit" name="next"  value="&gt;&gt;" />
+[% END %]
+
+</form>
+
+[% END %]

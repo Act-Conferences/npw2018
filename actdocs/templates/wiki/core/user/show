@@ -1,0 +1,209 @@
+<div align="center">
+
+
+<table border="1" cellpadding="10" cellspacing="0"><tr><td>
+
+<table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top" align="center">
+
+<table border="0" cellpadding="0" cellspacing="10">
+
+[% IF global.request.user.is_staff %]
+<tr>
+ <td align="right">{{Login}}</td>
+ <td>&nbsp;</td>
+ <td align="left">[% login %]</td>
+</tr>
+[% END %]
+<tr>
+   <td align="right">{{Name}}</td>
+   <td>&nbsp;</td>
+   <td align="left">
+      [%- IF user.pseudonymous %]
+         [% user.nick_name %]
+      [%- ELSE %]
+         [% loc("salutation_${user.salutation}") IF user.salutation %]
+         [% user.first_name %]
+         [% user.last_name %]
+         [% "(&lrm;${user.nick_name}&lrm;)" IF user.nick_name %]
+      [% END %]
+   </td>
+</tr>
+[%- IF user.town %]
+<tr>
+   <td align="right">{{City}}</td>
+   <td>&nbsp;</td>
+   <td align="left">[% user.town %]</td>
+</tr>
+[% END %]
+<tr>
+   <td align="right">{{Country}}</td>
+   <td>&nbsp;</td>
+   <td align="left">
+      [% country %]
+   </td>
+[%- IF user.pm_group %]
+</tr><tr>
+   <td align="right">{{Perl mongers group}}</td>
+   <td>&nbsp;</td>
+   <td align="left">
+      [% IF user.pm_group_url %]<a href="[% user.pm_group_url %]">[% user.pm_group %]</a>
+      [% ELSE %][% user.pm_group %][% END %]
+   </td>
+[% END %]
+[% IF user.company %]
+   </tr><tr>
+      <td align="right">{{Company}}</td>
+      <td>&nbsp;</td>
+      <td align="left">
+         [% "<a href=\"${user.company_url}\">" IF user.company_url %][% user.company %][% '</a>' IF user.company_url %]
+      </td>
+[% END %]
+[%- IF NOT user.email_hide OR global.request.user.is_users_admin %]
+   </tr><tr>
+      <td align="right">{{Email}}</td>
+      <td>&nbsp;</td>
+      <td align="left">
+         <tt><a href="mailto:[% user.email %]">[% user.email %]</a></tt>
+      </td>
+[% END %]
+[%- IF user.web_page %]
+   </tr><tr>
+      <td align="right">{{Web page}}</td>
+      <td>&nbsp;</td>
+      <td align="left">
+         <tt><a href="[% user.web_page %]">[% user.web_page %]</a></tt>
+      </td>
+[% END %]
+[%- IF user.pause_id %]
+   </tr><tr>
+      <td align="right">
+         <a href="https://pause.perl.org/">PAUSE</a> id
+      </td>
+      <td>&nbsp;</td>
+      <td align="left">
+         <a href="https://metacpan.org/author/[% user.pause_id %]/" >[% user.pause_id %]</a>
+      </td>
+[% END %]
+[%- IF user.monk_id %]
+   </tr><tr>
+      <td align="right">
+         Perlmonks id
+      </td>
+      <td>&nbsp;</td>
+      <td align="left">
+         <a href="http://perlmonks.org/index.pl?node_id=[% user.monk_id %]" >[% user.monk_name OR user.monk_id %]</a>
+      </td>
+[% END %]
+[%- IF user.im %]
+   </tr><tr>
+      <td align="right">{{IM}}</td>
+      <td>&nbsp;</td>
+      <td align="left">
+         [% user.im %]
+      </td>
+[% END %]
+[%- IF user.gpg_key_id %]
+   </tr><tr>
+      <td align="right">{{GPG key ID}}</td>
+      <td>&nbsp;</td>
+      <td align="left">
+         <a href="http://pgp.mit.edu:11371/pks/lookup?op=vindex&search=0x[% user.gpg_key_id %]">0x[% user.gpg_key_id %]</a>
+      </td>
+[% END %]
+   </tr>
+
+</table>
+
+</td>
+<td valign="top" align="left">
+
+   <table border="1" cellpadding="10" cellspacing="0"><tr><td>
+      [%- IF user.photo_name %]
+         <img src="/[% global.config.general_dir_photos %]/[% user.photo_name %]" border="0" alt="Photo">
+      [%- ELSE %]
+         <img src="http://www.gravatar.com/avatar/[% user.md5_email %]?s=100&d=404" border="0" alt="Photo">
+      [% END %]
+   </td></tr></table>
+
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="left">
+
+<table border="0" cellpadding="0" cellspacing="10">
+
+[% IF talks.size %]
+   <tr>
+      <td align="right" valign="top">
+      [% loc('Talk', talks.size) %]
+      </td>
+      <td>&nbsp;</td>
+      <td align="left">
+         <table border="1" cellpadding="5" cellspacing="0" width="100%"><tr><td>
+         [% accepted = 0;
+            FOREACH t = talks; IF t.accepted; accepted = 1; LAST; END; END;
+            IF accepted %]
+            <font size="-1">{{Accepted talks are shown in bold type.}}</font>
+            <br />
+         [% END %]
+          <ul>
+           [% FOREACH t = talks %]
+	    <li>[% talk_link(t) %]
+            ([% IF t.duration ; t.duration %]
+            {{minutes}}[% ELSE %]{{Lightning talk}}[% END %])
+           [% talk_modify_link(t) %]</li>
+             [% END %]
+          </ul>
+         </td></tr></table>
+      </td>
+   </tr>
+[% END %]
+
+[%- IF bio.keys.size %]
+   <tr>
+      <td align="right" valign="top">{{Bio}}</td>
+      <td>&nbsp;</td>
+      <td align="left">
+       [% FOREACH lang = bio.keys %]
+         <table border="1" cellpadding="5" cellspacing="0" width="100%"><tr><td>
+            <b>[% global.config.languages.$lang.name | ucfirst %]</b><br />
+            [% bio.$lang | replace('\n', '<br />') %]
+         </td></tr></table>
+       [% END %]
+      </td>
+   </tr>
+[% END %]
+[% IF mytalks.size %]
+   <tr>
+      <td align="right" valign="top">{{Attending talks}}</td>
+      <td>&nbsp;</td>
+      <td align="left">
+         <table border="1" cellpadding="5" cellspacing="0" width="100%"><tr><td>
+         <ul>
+         [% FOREACH t = mytalks %]
+            <li>[% talk_link(t) %]</li>
+         [% END %]
+         </ul>
+         </td></tr></table>
+      </td>
+   </tr>
+[% END %]
+[% IF conferences.size %]
+<tr>
+ <td align="right" valign="top">{{Other Act conferences:}}</td>
+ <td>&nbsp;</td>
+<td align="left">
+<table border="1" cellpadding="5" cellspacing="0" width="100%"><tr><td>
+<ul>
+[% FOREACH c = conferences %]<li><a href="[% c.url %]user/[% user.user_id %]">[% c.name %]</a>[% END %]
+</ul>
+</td></tr></table>
+</td></tr>
+[% END %]
+
+</table>
+</td></tr></table>
+</td></tr></table>
+
+</div>
