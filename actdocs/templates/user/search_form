@@ -1,42 +1,45 @@
 [% WRAPPER ui title = loc('Search for users') %]
 <section class="user-search">
   <h1>{{Search form}}</h1>
-  <form method="get" action="[% global.request.r.uri %]" id="user-search">
-    <div class="input-wrap -text">
-      <label for="user-name">{{Name}}</label>
-      <input type="text" class="form-textinput" placeholder="{{Name}}" name="name" id="user-name" value="[% global.request.args.name %]" maxlength="60">
+
+  <form method="get" action="[% global.request.r.uri %]" id="user-search" class="horizontal-form">
+    <div class="clearfix">
+      <div class="input-wrap -text">
+        <label for="user-name">{{Name}}</label>
+        <input type="text" class="form-textinput" placeholder="{{Name}}" name="name" id="user-name" value="[% global.request.args.name %]" maxlength="60">
+      </div>
+
+      <div class="input-wrap -text">
+        <label for="user-town">{{City}}</label>
+        <input type="text" class="form-textinput" placeholder="{{City}}" name="town" id="user-town" value="[% global.request.args.town %]"  maxlength="60">
+      </div>
+
+      <div class="input-wrap -select">
+        <label for="user-country">{{Country}}</label>
+        <select name="country" id="user-country">
+          <option value=""[% ' selected="selected"' UNLESS global.request.args.country %]>{{Any}}</option>
+          [% FOREACH c = countries %]
+            <option value="[% c.iso %]"[% ' selected="selected"' IF global.request.args.country == c.iso %]>[% c.name %]</option>
+          [% END %]
+        </select>
+      </div>
+
+      <div class="input-wrap -select">
+        <label for="user-group">{{Monger group}}</label>
+        <select name="pm_group" id="user-group">
+          <option value=""[% ' selected="selected"' UNLESS global.request.args.pm_group %]>{{Any}}</option>
+          [% FOREACH g = pm_groups %]
+            <option value="[% g %]"[% ' selected="selected"' IF global.request.args.pm_group == g %]>[% g %]</option>
+          [% END %]
+        </select>
+      </div>
+
+      <div class="submit-wrap">
+        <button type="submit" class="button" name="search" value="{{Search}}">{{Search}}</button>
+      </div>
     </div>
 
-    <div class="input-wrap -text">
-      <label for="user-town">{{Monger town}}</label>
-      <input type="text" class="form-textinput" placeholder="{{City}}" name="town" id="user-town" value="[% global.request.args.town %]"  maxlength="60">
-    </div>
-
-    <div class="input-wrap -select">
-      <label for="user-country">{{Country}}</label>
-      <select name="country" id="user-country">
-        <option value=""[% ' selected="selected"' UNLESS global.request.args.country %]>{{Any}}</option>
-        [% FOREACH c = countries %]
-          <option value="[% c.iso %]"[% ' selected="selected"' IF global.request.args.country == c.iso %]>[% c.name %]</option>
-        [% END %]
-      </select>
-    </div>
-
-    <div class="input-wrap -select">
-      <label for="user-group">{{Monger group}}</label>
-      <select name="pm_group" id="user-group">
-        <option value=""[% ' selected="selected"' UNLESS global.request.args.pm_group %]>{{Any}}</option>
-        [% FOREACH g = pm_groups %]
-          <option value="[% g %]"[% ' selected="selected"' IF global.request.args.pm_group == g %]>[% g %]</option>
-        [% END %]
-      </select>
-    </div>
-
-    <div class="submit-wrap">
-      <button type="submit" class="button" name="search" value="{{Search}}">{{Search}}</button>
-    </div>
-
-    [% PROCESS user/list IF users %]
+    [% PROCESS user/list IF users AND users.size %]
 
     [% IF prev OR next %]
     <div class="pager">
