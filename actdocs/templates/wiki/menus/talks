@@ -1,3 +1,0 @@
-<!-- talks menu -->
-[% PROCESS menus/talks_head %]
-[% PROCESS menus/talks_body %]
