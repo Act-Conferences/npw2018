@@ -9,8 +9,8 @@
     [% IF error; WRAPPER error_ui; loc('Incorrect login or password'); END; END %]
 
     <div class="input-wrap -text">
-      <label for="form-credential-0">[% loc('Login') %]</label>
-      <input type="text" class="npw-input" placeholder="{{Login}}" name="credential_0" id="form-credential-0">
+      <label for="form-credential-0">[% loc('Username') %]</label>
+      <input type="text" class="npw-input" placeholder="{{Login}}" name="credential_0" id="form-credential-0" autofocus>
     </div>
 
     <div class="input-wrap -text">
@@ -26,8 +26,8 @@
     </div>
 
     <div class="submit-wrap">
-      <button type="submit" name="join" value="{{Submit}}" class="button">{{Submit}}</button>
-      <a href="[% make_uri('register') %]">{{Register}}</a>
+      <button type="submit" name="join" value="{{Submit}}" class="button">{{Log in}}</button>
+      <a href="[% make_uri('register') %]" class="button -link">{{Register}}</a>
     </div>
   </form>
 

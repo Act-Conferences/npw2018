@@ -1,21 +1,20 @@
 [% WRAPPER ui title = loc("Confirmation required") %]
 
 <section id="register" class="user-register">
-  <h1>Register</h1>
-  <p class="register-info">If you have an existing YAPC account, please <a href="/npw2014/main"><strong>Log in</strong></a> first. New users can start registration by confirming their email address below.</p>
-  <p class="register-info">{{This operation requires a confirmation. Please enter your email address,}}</p>
-
-  [% PROCESS error
-    msgs = {
-      ERR_EMAIL        => loc("You must enter your email"),
-      ERR_EMAIL_SYNTAX => loc("Your email address looks bogus."),
-    }
-  %]
-
   <form method="post" action="[% global.request.r.uri %]">
+    <h1>Register</h1>
+    <p class="register-info">If you have an existing YAPC account, please <a href="/npw2014/main"><strong>Log in</strong></a> first. New users can start registration by confirming their email address below.</p>
+    <p class="register-info">{{This operation requires a confirmation. Please enter your email address,}}</p>
+
+    [% PROCESS error
+      msgs = {
+        ERR_EMAIL        => loc("You must enter your email"),
+        ERR_EMAIL_SYNTAX => loc("Your email address looks bogus."),
+      }
+    %]
+
     <div class="input-wrap -text">
-      <
-      <input type="text" class="npw-input" placeholder="Email" name="email" value="[% email %]">
+      <input type="text" class="npw-input" id="form-email" placeholder="Email" name="email" value="[% email %]" autofocus>
     </div>
     <div class="submit-wrap">
       <boutton type="submit" class="submit" name="twostepsubmit" value="Register">Register</button>

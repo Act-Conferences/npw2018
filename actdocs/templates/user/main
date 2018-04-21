@@ -38,7 +38,7 @@
         </p>
       [% END %]
     [% ELSIF !global.config.closed %]
-      [% loc("You did not register for this conference", make_uri('register')) %]
+      <p class="info-box">[% loc("You did not register for this conference", make_uri('register')) %]</p>
     [% END %]
   [% END %]
 
@@ -65,11 +65,11 @@
         [% END %]
       [% END %]
     [% ELSIF !global.config.closed %]
-      <li><a href="[% make_uri('register') %]">{{register for this conference}}</a><br /></li>
+      <li><a href="[% make_uri('register') %]">{{Register for this conference}}</a><br /></li>
     [% END %]
-    <li><a href="[% make_uri('change') %]">{{update your information}}</a><br /></li>
-    <li><a href="[% make_uri('photo') %]">{{manage your photo}}</a><br /></li>
-    <li><a href="[% make_uri('changepwd') %]">{{change your password}}</a></li>
+    <li><a href="[% make_uri('change') %]">{{Update your information}}</a><br /></li>
+    <li><a href="[% make_uri('photo') %]">{{Manage your photo}}</a><br /></li>
+    <li><a href="[% make_uri('changepwd') %]">{{Change your password}}</a></li>
     [% IF global.request.conference AND talks.size %]
       <li>
         <p>{{see your talks (accepted talks are shown in bold type)}}:</p>
@@ -83,7 +83,7 @@
     [% IF global.config.talks_submissions_open AND global.request.user.has_registered %]
       <li><a href="[% make_uri('newtalk') %]">{{submit a talk}}</a><br /></li>
     [% END %]
-    <li><a href="[% make_uri('logout') %]">{{log out}}</a></li>
+    <li><a href="[% make_uri('logout') %]">{{Log out}}</a></li>
     [% IF can_unregister %]
     <li><a href="[% make_uri('unregister') %]">[% loc("unregister from <this conference>", global.conference.name) %]</a></li>
     [% END %]
