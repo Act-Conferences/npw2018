@@ -1,6 +1,6 @@
 <p>{{Committed users are listed in <b>bold</b> type}}</p>
 
-<table id="user-list">
+<table class="table">
   <thead>
     <tr>
       <th>{{Name}}</th>

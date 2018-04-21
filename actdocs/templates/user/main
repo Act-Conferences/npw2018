@@ -1,7 +1,7 @@
 [% WRAPPER ui title = loc("Main private page") %]
 
 <section class="user-profile">
-  <h1>Personal page</h1>
+  <h1>Your profile</h1>
   <p class="user-profile_intro">
     {{This is your personal page.}}
     [% IF global.request.conference %]
@@ -72,7 +72,7 @@
     <li><a href="[% make_uri('changepwd') %]">{{change your password}}</a></li>
     [% IF global.request.conference AND talks.size %]
       <li>
-        <p>{{see your talks (accepted talks are shown in bold type)}}:</p>
+        <span class="ul-heading">{{see your talks (accepted talks are shown in bold type)}}:</span>
         <ul>
         [% FOR t = talks %]
           <li>[% talk_link(t) %] [% talk_modify_link(t) %]</li>

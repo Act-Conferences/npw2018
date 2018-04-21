@@ -1,23 +1,24 @@
-[% PROCESS error
-   msgs = {
-     ERR_FIRST_NAME         => loc("You must enter your first name"),
-     ERR_LAST_NAME          => loc("You must enter your last name"),
-     ERR_EMAIL              => loc("You must enter your email"),
-     ERR_COUNTRY            => loc("You must enter a country from the list"),
-     ERR_EMAIL_SYNTAX       => loc("Your email address looks bogus."),
-     ERR_NICK               => loc("You cannot be pseudonymous with a blank nickname"),
-     ERR_PMGROUP            => loc("The Perl monger group must end with <tt>.pm</tt>"),
-     ERR_PM_URL             => loc("The Perl monger group URL must start with http://"),
-     ERR_COMPANY_URL        => loc("The company URL must start with http://"),
-     ERR_WEBPAGE            => loc("Your web site URL must start with http://"),
-     ERR_MONKID             => loc("Your perlmonks id must be a number"),
-     ERR_NBFAMILY           => loc("Number of family members attending must be a number"),
-     ERR_TSHIRT             => loc("A valid T-shirt size is required."),
-     ERR_GPG_KEY_ID         => loc("Not a valid GPG key ID: 8 hexadecimal digits expected"),
-  }
-%]
 <section class="user-change">
   <h1>Your profile</h1>
+
+  [% PROCESS error
+    msgs = {
+      ERR_FIRST_NAME         => loc("You must enter your first name"),
+      ERR_LAST_NAME          => loc("You must enter your last name"),
+      ERR_EMAIL              => loc("You must enter your email"),
+      ERR_COUNTRY            => loc("You must enter a country from the list"),
+      ERR_EMAIL_SYNTAX       => loc("Your email address looks bogus."),
+      ERR_NICK               => loc("You cannot be pseudonymous with a blank nickname"),
+      ERR_PMGROUP            => loc("The Perl monger group must end with <tt>.pm</tt>"),
+      ERR_PM_URL             => loc("The Perl monger group URL must start with http://"),
+      ERR_COMPANY_URL        => loc("The company URL must start with http://"),
+      ERR_WEBPAGE            => loc("Your web site URL must start with http://"),
+      ERR_MONKID             => loc("Your perlmonks id must be a number"),
+      ERR_NBFAMILY           => loc("Number of family members attending must be a number"),
+      ERR_TSHIRT             => loc("A valid T-shirt size is required."),
+      ERR_GPG_KEY_ID         => loc("Not a valid GPG key ID: 8 hexadecimal digits expected"),
+    }
+  %]
 
   <form method="post" action="[% global.request.r.uri %]">
     <fieldset>
@@ -177,15 +178,15 @@
       </div>
 
       <div class="input-wrap -text">
+        <input type="text" placeholder="{{VAT Number}}" name="vat" id="form-vat" value="[% vat %]" maxlength="60">
+      </div>
+
+      <div class="input-wrap -text">
         <label for="form-company_url">{{Company URL}}</label>
         <input type="text" placeholder="{{Company URL}}" name="company_url" value="[% company_url %]" maxlength="120">
         [%- IF company_url %]
         <p class="form-help"><a target="_blank" href="[% company_url %]">[% company_url %]</a></p>
         [% END %]
-      </div>
-
-      <div class="input-wrap -text">
-        <input type="text" placeholder="{{VAT Number}}" name="vat" id="form-vat" value="[% vat %]" maxlength="60">
       </div>
     </fieldset>
 
@@ -205,7 +206,7 @@
 
     <div class="submit-wrap">
       <button class="submit button" type="submit" name="join" value="{{Update info}}">{{Update info}}</button>
-      <a href="[% make_uri('main') %]">Back to your profile</a>
+      <a href="[% make_uri('main') %]" class="button -link">Back to your profile</a>
     </div>
   </form>
 </section>

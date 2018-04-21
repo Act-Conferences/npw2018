@@ -1,6 +1,8 @@
 [% WRAPPER ui title = loc("Registered!") %]
+
 <section id="user-added">
   <h1>Registered</h1>
   <p>[% loc('Congratulations, you are now registered', login, clear_passwd) %]</p>
 </section>
+
 [% END %]

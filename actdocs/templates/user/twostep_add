@@ -17,7 +17,7 @@
       <input type="text" class="npw-input" id="form-email" placeholder="Email" name="email" value="[% email %]" autofocus>
     </div>
     <div class="submit-wrap">
-      <boutton type="submit" class="submit" name="twostepsubmit" value="Register">Register</button>
+      <button type="submit" class="button" name="twostepsubmit" value="Register">Register</button>
     </div>
   </form>
 </section>

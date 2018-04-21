@@ -9,13 +9,13 @@
     [% IF error; WRAPPER error_ui; loc('Incorrect login or password'); END; END %]
 
     <div class="input-wrap -text">
-      <label for="form-credential-0">[% loc('Username') %]</label>
-      <input type="text" class="npw-input" placeholder="{{Login}}" name="credential_0" id="form-credential-0" autofocus>
+      <label for="form-credential-0">Username</label>
+      <input type="text" class="npw-input" name="credential_0" id="form-credential-0" autofocus>
     </div>
 
     <div class="input-wrap -text">
       <label for="form-credential-0">[% loc('Password') %]</label>
-      <input type="password" class="npw-input" placeholder="{{Password}}" name="credential_1" id="form-credential-1">
+      <input type="password" class="npw-input" name="credential_1" id="form-credential-1">
     </div>
 
     <div class="input-wrap -checkbox">
