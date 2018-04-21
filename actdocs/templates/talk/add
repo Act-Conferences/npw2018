@@ -1,193 +1,208 @@
 [% WRAPPER ui title = loc("Submit/Edit a talk") %]
 
-
-
 [% PROCESS error
    msgs = {
-	 ERR_USER           => loc("You must specify a user"),
-	 ERR_TITLE          => loc("You must enter a title for the talk"),
-	 ERR_ABSTRACT       => loc("You must provide an abstract"),
-	 ERR_DATE           => loc("The supplied date is invalid"),
-	 ERR_TIME           => loc("The supplied time is invalid"),
-	 ERR_DATERANGE      => loc("The date/time is out of range"),
-	 ERR_DURATION       => loc("Please choose a duration"),
-	 ERR_URL_ABSTRACT   => loc("Abstract URL is not a valid URL"),
-	 ERR_URL_TALK       => loc("Talk URL is not a valid URL"),
-	 ERR_ROOM           => loc("Incorrect room submitted"),
-	 ERR_LEVEL          => loc("Please choose a target audience"),
-	 ERR_LANG           => loc("Incorrect language"),
+    ERR_USER           => loc("You must specify a user"),
+    ERR_TITLE          => loc("You must enter a title for the talk"),
+    ERR_ABSTRACT       => loc("You must provide an abstract"),
+    ERR_DATE           => loc("The supplied date is invalid"),
+    ERR_TIME           => loc("The supplied time is invalid"),
+    ERR_DATERANGE      => loc("The date/time is out of range"),
+    ERR_DURATION       => loc("Please choose a duration"),
+    ERR_URL_ABSTRACT   => loc("Abstract URL is not a valid URL"),
+    ERR_URL_TALK       => loc("Talk URL is not a valid URL"),
+    ERR_ROOM           => loc("Incorrect room submitted"),
+    ERR_LEVEL          => loc("Please choose a target audience"),
+    ERR_LANG           => loc("Incorrect language"),
   }
 %]
 
-<div class="container npwsingle">
-   <section id="newtalk" class="fsection section__newtalk">
-      <div class="section-content-wrapper">
-        <h2>New talk</h2>
-		<form method="POST" action="[% global.request.r.uri %]">
-			[% IF return_url %]
-				<input type="hidden" name="return_url" value="[% return_url %]" />
-			[% END %]
+<section class="user-talk-submit">
+  <h1>New talk</h1>
+  <form method="post" action="[% global.request.r.uri %]">
+    [% IF return_url %]
+      <input type="hidden" name="return_url" value="[% return_url %]">
+    [% END %]
 
-			[% IF talk_id %]
-				<input type="hidden" name="talk_id" value="[% talk_id %]" />
-				<p>
-		 			{{View}}
-					<a href="[% make_uri_info('talk', talk_id) %]" >[% title %]</a>
-				</p>
-				<p>
-					<input type="checkbox" name="delete" />
-					{{Delete this talk}}
-				</p>
-			[% END %]
+    [% IF talk_id %]
+      <input type="hidden" name="talk_id" value="[% talk_id %]">
+      <p>
+        {{View}} <a href="[% make_uri_info('talk', talk_id) %]" >[% title %]</a>
+      </p>
+      <p>
+        <input type="checkbox" name="delete"> {{Delete this talk}}
+      </p>
+    [% END %]
 
-			[% IF global.request.user.is_talks_admin %]
+    [% IF global.request.user.is_talks_admin %]
+      <div class="input-wrap -select">
+        <select name="user_id">
+          [% uid = user_id ? user_id : global.request.user.user_id %]
+          [% FOREACH u=users %]
+            <option value="[% u.user_id %]"[% ' selected="selected"' IF u.user_id == uid %]>
+              [% u.first_name %] [% u.last_name %]
+            </option>
+          [% END %]
+        </select>
+      </div>
 
-				<select name="user_id">
-				[% uid = user_id ? user_id : global.request.user.user_id %]
-				[% FOREACH u=users %]
-			  		<option value="[% u.user_id %]"[% ' selected="selected"' IF u.user_id == uid %]>
-						[% u.first_name %] [% u.last_name %]
-			  		</option>
-				[% END %]
-				</select>
-		  		{{Date}}
-		 
-		   		<select name="date">
-					<option value=""[% ' selected="selected"' UNLESS datetime %] />
-		   			[% FOREACH d=dates %]
-			 			<option value="[% d.ymd %]"[% ' selected="selected"' IF datetime.ymd == d.ymd %]>[% d.ymd %]</option>
-		   			[% END %]
-				</select>
-		   		{{Time}}
-				<input type="text" name="time" value="[% datetime.strftime('%H:%M') %]" size="5" maxlength="5" />
-		   		{{Room}}
-				<select name="room">
-			 		<option value=""[% ' selected="selected"' UNLESS room %] />
-					[% FOREACH r = rooms.keys.sort %]
-			 			<option value="[% r %]"[% ' selected="selected"' IF room == r %]>[% rooms.$r %]</option>
-					[% END %]
-				</select>
-			[% END %]
+      <div class="input-wrap -select">
+        <label>{{Date}}</label>
+        <select name="date">
+          <option value=""[% ' selected="selected"' UNLESS datetime %]>
+          [% FOREACH d=dates %]
+            <option value="[% d.ymd %]"[% ' selected="selected"' IF datetime.ymd == d.ymd %]>[% d.ymd %]</option>
+          [% END %]
+        </select>
+      </div>
 
-			<div class="form-row">
-				<input type="text" class="form-textinput" placeholder="{{Title}}" name="title" value="[% title %]" maxlength="100" />
-			</div>
-		  
-			[% IF tracks.size != 0 %]
-		  		[% IF global.request.user.is_talks_admin %]
+      <div class="input-wrap -text">
+        {{Time}}
+        <input type="text" name="time" value="[% datetime.strftime('%H:%M') %]" size="5" maxlength="5">
+      </div>
 
-			  		{{Track}}
+      <div class="input-wrap -select">
+        <label>{{Room}}</label>
+        <select name="room">
+          <option value=""[% ' selected="selected"' UNLESS room %]>
+          [% FOREACH r = rooms.keys.sort %]
+            <option value="[% r %]"[% ' selected="selected"' IF room == r %]>[% rooms.$r %]</option>
+          [% END %]
+        </select>
+      </div>
+    [% END %]
 
-			   		<select name="track_id">
-				 		<option value=""[% ' selected="selected"' UNLESS track_id %] />
-			   			[% FOREACH t=tracks %]
-				 			<option value="[% t.track_id %]"[% ' selected="selected"' IF t.track_id == track_id %]>[% t.title %]</option>
-			   			[% END %]
-			   		</select>
-		  
-		  		[% ELSE %]
-		   			<input type="hidden" name="track_id" value="[% track_id %]" />
-		  		[% END %]
-			[% END %]
+    <div class="input-wrap -text">
+      <label>{{Title}}</label>
+      <input type="text" class="form-textinput" placeholder="{{Title}}" name="title" value="[% title %]" maxlength="100">
+    </div>
 
-			<div class="form-row">
-				<input type="text" class="form-textinput" placeholder="{{Tags}}" name="tags" value="[% tags %]" maxlength="100" />
-			</div>
-		  
-		  	<div class="form-row">
-				[% IF global.config.talks_languages %]
-				 	{{Language}}
-					<select name="lang" size="1">
-						<option value=""[% ' selected="selected"' UNLESS lang %] />
-					  	[% FOREACH lg = global.config.talks_languages.keys.sort %]
-							<option value="[% lg %]"[% ' selected="selected"' IF lang==lg %]>[% global.config.talks_languages.$lg %]</option>
-					  	[% END %]
-				  	</select>
-				[% END %]
-			</div>
+    [% IF tracks.size != 0 %]
+      [% IF global.request.user.is_talks_admin %]
+        <div class="input-wrap -select">
+          <label>{{Track}}</label>
+          <select name="track_id">
+            <option value=""[% ' selected="selected"' UNLESS track_id %]>
+            [% FOREACH t=tracks %]
+              <option value="[% t.track_id %]"[% ' selected="selected"' IF t.track_id == track_id %]>[% t.title %]</option>
+            [% END %]
+          </select>
+        </div>
+      [% ELSE %]
+        <input type="hidden" name="track_id" value="[% track_id %]">
+      [% END %]
+    [% END %]
 
-		 	<div class="form-row">
-		 		<textarea name="abstract" placeholder="{{Abstract}}" class="form-textinput" cols="50" rows="10">[% abstract | form_unescape %]</textarea>
-		 	</div>
-		 	
-		  
-		  	<div class="form-row">
-		  		<input type="text" class="form-textinput" placeholder="{{Abstract URL}}" name="url_abstract" value="[% url_abstract %]"  maxlength="256" />
-		  	</div>
-		  
-		  	<div class="form-row">
-		  		<input type="text" class="form-textinput" name="url_talk" placeholder="{{Talk URL}}" value="[% url_talk %]" maxlength="256" />
-		  	</div>
-		  
-			{{Duration}}
-		  	[% IF global.request.user.is_talks_admin %]
-				[% loc("Standard durations for <confname> are:", global.conference.name) %]
-				<b>[% global.config.talks_durations.keys.nsort.join('</b>, <b>') %]</b> {{minutes}}
-				<br />
-				<input name="duration" value="[% duration == 'lightning' ? '' : duration %]" size="3" />
-				<input type="checkbox" name="is_lightning"[% ' checked' IF duration=='lightning' %] />
-				{{Lightning talk}}
-		  	[% ELSE %]
-			[% IF talk_id %]
-				[% IF duration == 'lightning' %]
-					{{Lightning talk}}
-			  	[% ELSE %]
-					[% duration %] {{minutes}}
-			  	[% END %]
-				[% ELSE %]
-			  		<select name="duration">
-			   			<option value=""[% ' selected="selected"' UNLESS duration %] />
-			   			<option value="lightning"[% ' selected="selected"' IF lightning %]>
-				  			{{Lightning talk}}
-			   			</option>
-			   			[% FOREACH d = global.config.talks_durations.keys.nsort %]
-			   				<option value="[% d %]"[% ' selected="selected"' IF d == duration %]>[% d %] {{minutes}}</option>
-			   			[% END %]
-			   			{{If the proposed durations do not quite fit your talk, please}}
-			 	[% END %]
-		   	[% END %]
-			</select>
-		 
-		[% IF global.config.talks_levels %]
-		<select name="level">
-			   [% FOREACH levelname = global.config.talks_levels_names %]
-				 <option value="[% loop.count %]"[% ' selected="selected"' IF level == loop.count %]>[% levelname %]</option>
-			   [% END %]
-		  
-		[% END %]
-			<div class="form-row">
-				<textarea name="comment" class="form-textinput" cols="50" rows="3" placeholder="{{Comments}}">[% comment | form_unescape %]</textarea>
-				{{The comment field is used for communicating information about}}
-		  	</div>
+    <div class="input-wrap -text">
+      <label>{{Abstract}}</label>
+      <textarea name="abstract" placeholder="{{Abstract}}" class="form-textinput" cols="50" rows="10">[% abstract | form_unescape %]</textarea>
+    </div>
 
-			<div class="form-row">
-				{{Status}}
-				[% IF global.request.user.is_talks_admin %]
-					<input type="checkbox" name="accepted"[% ' checked' IF accepted %] />
-					{{accepted}}
-					<br>
-					<input type="checkbox" name="confirmed"[% ' checked' IF confirmed %] />
-					{{confirmed}}
-					<br>
-				[% ELSE %]
-				  	[% IF accepted %]
-						{{Accepted}}
-						<br>
-						<input type="checkbox" name="confirmed"[% ' checked' IF confirmed %] />
-						{{confirmed}}<br>
-				  	[% ELSE %]
-						{{Pending}}
-				  	[% END %]
-				[% END %]
-			</div>	
-		 
-			<div class="form-row">
-				<input type="submit" class="npw-submit" name="submit" value="{{Submit this talk}}" />
-			</div>
-		</form>
-		</div>
-	</section>
-</div>
+    <div class="input-wrap -text">
+      <label>{{Abstract URL}}</label>
+      <input type="text" class="form-textinput" placeholder="{{Abstract URL}}" name="url_abstract" value="[% url_abstract %]"  maxlength="256">
+    </div>
 
+    <div class="input-wrap -text">
+      <label>{{Talk URL}}</label>
+      <input type="text" class="form-textinput" name="url_talk" placeholder="{{Talk URL}}" value="[% url_talk %]" maxlength="256">
+    </div>
+
+    [% IF global.config.talks_languages %]
+      <div class="input-wrap -select">
+        <label>{{Language}}</label>
+        <select name="lang" size="1">
+          <option value=""[% ' selected="selected"' UNLESS lang %]>
+          [% FOREACH lg = global.config.talks_languages.keys.sort %]
+            <option value="[% lg %]"[% ' selected="selected"' IF lang==lg %]>[% global.config.talks_languages.$lg %]</option>
+          [% END %]
+        </select>
+      </div>
+    [% END %]
+
+    <div class="input-wrap -text">
+      <label>{{Tags}}</label>
+      <input type="text" class="form-textinput" placeholder="{{Tags}}" name="tags" value="[% tags %]" maxlength="100">
+    </div>
+
+    [% IF global.request.user.is_talks_admin %]
+    <div class="input-wrap -text">
+      <p>
+        [% loc("Standard durations for <confname> are:", global.conference.name) %]
+        <b>[% global.config.talks_durations.keys.nsort.join('</b>, <b>') %]</b> {{minutes}}
+      </p>
+      <label>{{Duration}}</label>
+      <input name="duration" value="[% duration == 'lightning' ? '' : duration %]" size="3">
+      <input type="checkbox" name="is_lightning"[% ' checked' IF duration=='lightning' %]> {{Lightning talk}}
+    [% ELSE %]
+      [% IF talk_id %]
+        [% IF duration == 'lightning' %]
+          <p>{{Duration}}: {{Lightning talk}}.</p>
+        [% ELSE %]
+          <p>{{Duration}}: [% duration %] {{minutes}}.</p>
+        [% END %]
+      [% ELSE %]
+      <div class="input-wrap -select">
+        <label>{{Duration}}</label>
+        <select name="duration">
+          <option value=""[% ' selected="selected"' UNLESS duration %]>
+          <option value="lightning"[% ' selected="selected"' IF lightning %]>{{Lightning talk}}</option>
+          [% FOREACH d = global.config.talks_durations.keys.nsort %]
+            <option value="[% d %]"[% ' selected="selected"' IF d == duration %]>[% d %] {{minutes}}</option>
+          [% END %]
+        </select>
+        <p class="form-help">{{If the proposed durations do not quite fit your talk, please}}</p>
+      [% END %]
+    [% END %]
+
+    [% IF global.config.talks_levels %]
+      <div class="input-wrap -select">
+        <label>Level</label>
+        <select name="level">
+          [% FOREACH levelname = global.config.talks_levels_names %]
+            <option value="[% loop.count %]"[% ' selected="selected"' IF level == loop.count %]>[% levelname %]</option>
+          [% END %]
+        </select>
+      </div>
+    [% END %]
+
+    <div class="input-wrap -text">
+      <label>Comment</label>
+      <textarea name="comment" class="form-textinput" cols="50" rows="3" placeholder="{{Comments}}">[% comment | form_unescape %]</textarea>
+      <p class="form-help">{{The comment field is used for communicating information about}}</p>
+    </div>
+
+    [% IF global.request.user.is_talks_admin %]
+      <div class="input-wrap -radio">
+        <span class="form-label">{{Status}}</span>
+        <label>
+          <input type="checkbox" name="accepted"[% ' checked' IF accepted %]>
+          {{accepted}}
+        </label>
+        <label>
+          <input type="checkbox" name="confirmed"[% ' checked' IF confirmed %]>
+          {{confirmed}}
+        </label>
+      </div>
+    [% ELSE %]
+      [% IF accepted %]
+        <div class="input-wrap -radio">
+          <label>
+            <input type="checkbox" name="confirmed"[% ' checked' IF confirmed %]>
+            {{confirmed}}
+          </label>
+          <p class="form-help">{{Status}}: {{Accepted}}</p>
+        </div>
+      [% ELSE %]
+        <p class="info-box">{{Status}}: {{Pending}}</p>
+      [% END %]
+    [% END %]
+
+    <div class="submit-wrap">
+      <button type="submit" class="npw-submit" name="submit" value="{{Submit this talk}}">{{Submit this talk}}</button>
+      <a href="[% make_uri('main') %]">Back to your profile</a>
+    </div>
+  </form>
+</section>
 
 [% END %]

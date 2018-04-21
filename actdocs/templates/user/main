@@ -24,7 +24,7 @@
           <p>[% loc("Download your invoice", make_uri_info('invoice', order.order_id)) %]</p>
         [% END %]
       [% ELSIF global.config.payment_type != "NONE" %]
-        <p>
+        <p class="info-box">
           [% IF !global.config.registration_gratis -%]
             {{You have not bought your conference ticket yet.}}
           [%- ELSE -%]

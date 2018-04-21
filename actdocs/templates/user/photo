@@ -28,6 +28,7 @@ END
     [%- IF global.request.user.photo_name %]
       <button type="submit" class="button -danger" name="delete" value="{{Delete Photo}}">{{Delete Photo}}</button>
     [% END %]
+      <a href="[% make_uri('main') %]">View your profile</a>
     </div>
   </form>
 </section>

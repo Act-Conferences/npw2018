@@ -17,7 +17,7 @@
   }
 %]
 <section class="user-change">
-  <h1>Personal info</h1>
+  <h1>Your profile</h1>
 
   <form method="post" action="[% global.request.r.uri %]">
     <fieldset>
@@ -36,7 +36,7 @@
         <input type="text" placeholder="{{Last Name}}" name="last_name" id="form-last-name" value="[% last_name %]" maxlength="60">
       </div>
 
-      <div class="input-wrap -radio">
+      <div class="input-wrap -text">
         <label>{{Nickname}}</label>
         <input type="text" placeholder="{{Nickname}}" name="nick_name" id="form-nick-name" value="[% nick_name %]" maxlength="60">
         <p class="form-help">
@@ -57,7 +57,7 @@
       </div>
 
       <div class="input-wrap -select">
-        <label for="form-nb-family">{{Coming with}}</label>
+        <label for="form-nb-family">{{Coming with}} {{people (who will not attend the conference)}}</label>
         <select name="nb_family" id="form-nb-family">
           <option value="0"[% ' selected="selected"' UNLESS nb_family %]>0</option>
           [% FOREACH c = [ 1..5 ] %]
@@ -65,7 +65,7 @@
           [% END %]
           <option value="6"[% ' selected="selected"' IF nb_family AND nb_family >= 6 %]>{{6 or more}}</option>
         </select>
-        <p class="form-help">{{people (who will not attend the conference)}}</p>
+        <p class="form-help"></p>
       </div>
 
       <div class="input-wrap -select">
@@ -120,7 +120,7 @@
         <label for="form-webpage">{{Web page}}</label>
         <input type="text" placeholder="{{Web page}}" name="web_page" value="[% web_page %]" maxlength="120">
         [%- IF web_page %]
-        <p class="form-help"><a href="[% web_page %]">[% web_page %]</a></p>
+        <p class="form-help"><a target="_blank" href="[% web_page %]">[% web_page %]</a></p>
         [% END %]
       </div>
 
@@ -134,7 +134,7 @@
         <label for="form-pm_group_url">{{Monger group URL}}</label>
         <input type="text" placeholder="{{Monger group URL}}" name="pm_group_url" value="[% pm_group_url %]" maxlength="120">
         [%- IF pm_group_url %]
-          <p class="form-help"><a href="[% pm_group_url %]">[% pm_group_url %]</a></p>
+          <p class="form-help"><a target="_blank" href="[% pm_group_url %]">[% pm_group_url %]</a></p>
         [% END %]
       </div>
 
@@ -142,7 +142,7 @@
         <label for="form-pause_id">PAUSE ID</label>
         <input type="text" name="pause_id"  placeholder="PAUSE username" value="[% pause_id %]" maxlength="60">
         [%- IF pause_id %]
-          <p class="form-help"><a href="https://metacpan.org/author/[% pause_id %]">[% pause_id %]</a></p>
+          <p class="form-help"><a target="_blank" href="https://metacpan.org/author/[% pause_id %]">https://metacpan.org/author/[% pause_id %]</a></p>
         [% END %]
       </div>
 
@@ -150,7 +150,7 @@
         <label for="form-monk_id">Perlmonks ID</label>
         <input type="text" name="monk_id"  placeholder="Perlmonks id" value="[% monk_id %]" maxlength="60">
         [%- IF monk_id %]
-          <p class="form-help"><a href="http://perlmonks.org/index.pl?node_id=[% monk_id %]">[% monk_id %]</a></p>
+          <p class="form-help"><a target="_blank" href="http://perlmonks.org/index.pl?node_id=[% monk_id %]">http://perlmonks.org/index.pl?node_id=[% monk_id %]</a></p>
         [% END %]
       </div>
 
@@ -158,7 +158,7 @@
         <label for="form-gpg_key_id">{{GPG public key ID}}</label>
         <input type="text" placeholder="{{GPG public key ID}}" name="gpg_key_id" value="[% gpg_key_id %]" axlength="8">
         [%- IF gpg_key_id %]
-          <p class="form-help"><a href="http://pgp.mit.edu:11371/pks/lookup?op=vindex&search=0x[% gpg_key_id %]">[% gpg_key_id %]</a></p>
+          <p class="form-help"><a target="_blank" href="http://pgp.mit.edu:11371/pks/lookup?op=vindex&search=0x[% gpg_key_id %]">http://pgp.mit.edu:11371/pks/lookup?op=vindex&search=0x[% gpg_key_id %]</a></p>
         [% END %]
       </div>
 
@@ -180,7 +180,7 @@
         <label for="form-company_url">{{Company URL}}</label>
         <input type="text" placeholder="{{Company URL}}" name="company_url" value="[% company_url %]" maxlength="120">
         [%- IF company_url %]
-        <p class="form-help"><a href="[% company_url %]">[% company_url %]</a></p>
+        <p class="form-help"><a target="_blank" href="[% company_url %]">[% company_url %]</a></p>
         [% END %]
       </div>
 
@@ -193,20 +193,19 @@
       <legend>{{Bio}}</legend>
 
       [% FOREACH lang = global.config.languages.keys %]
-        [% IF lang == 'en' %]
-          {{(please fill at least this one)}}
-        [% END %]
         <div class="input-wrap -text">
           <label for="form-bio_[% lang %]">[% global.config.languages.$lang.name | ucfirst %]</label>
           <textarea name="bio_[% lang %]" placeholder="{{Bio}}" rows="5">[% bio.$lang | form_unescape %]</textarea>
         </div>
+        [% IF lang == 'en' %]
+          <p class="form-help">{{(please fill at least this one)}}</p>
+        [% END %]
       [% END %]
     </fieldset>
 
     <div class="submit-wrap">
       <button class="submit button" type="submit" name="join" value="{{Update info}}">{{Update info}}</button>
+      <a href="[% make_uri('main') %]">Back to your profile</a>
     </div>
   </form>
-</div>
 </section>
-</div>

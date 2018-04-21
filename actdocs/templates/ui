@@ -74,7 +74,7 @@
         <a href="https://www.meetup.com/Oslo-pm/" class="page-link">Meetup</a>
       </li>
       <li class="last">
-        <a href="/npw2018/feed.xml"><img src="/images/rss.gif" alt="Atom feed"></a>
+        <a href="/npw2018/feed.xml"><img src="//oslo.pm/images/rss.gif" alt="Atom feed"></a>
       </li>
     </ul>
   </div>
