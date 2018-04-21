@@ -1,16 +1,9 @@
-[% WRAPPER ui  title = loc('Un-Registration') %]
-<div class="container npwsingle">
-	<section id="register" class="fsection section__register">
-		<div class="section-content-wrapper">
-			<h2>Unregister</h2>
-			<p>
-				[% loc('To unregister from <conference>,', global.conference.name) %]
-			</p>
-			<form method="POST" action="[% global.request.r.uri %]">
-				<input type="submit" class="npw-submit unregister" name="leave" value="[% loc('Unregister from <conference>', global.conference.name) %]" />
-			</form>
-		</div>
-	</section>
-</div>
-
+[% WRAPPER ui title = loc('Un-Registration') %]
+<section id="unregister" class="user-unregister">
+  <h1>Unregister</h1>
+  <p>[% loc('To unregister from <conference>,', global.conference.name) %]</p>
+  <form method="post" action="[% global.request.r.uri %]">
+    <button type="submit" class="button -danger" name="leave" value="[% loc('Unregister from <conference>', global.conference.name) %]">[% loc('Unregister from <conference>', global.conference.name) %]</button>
+  </form>
+</section>
 [% END %]

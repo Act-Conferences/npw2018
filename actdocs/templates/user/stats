@@ -1,115 +1,100 @@
 [% WRAPPER ui title = loc('<conf name> Statistics', global.conference.name) %]
 
-<div class="container npwsingle">
-   	<section id="register" class="fsection section__registered">
-      	<div class="section-content-wrapper">
-	        <h2>Registered users</h2>
+<section id="user-stats" class="user-stats">
+  <h1>Registered users</h1>
 
-			<div class="row">
-				<p>
-			 		[% loc('There are n registered people', stats.users, stats.countries.size, stats.pm.size, stats.committed) %]
-				</p>
-			</div>
+  <p>[% loc('There are n registered people', stats.users, stats.countries.size, stats.pm.size, stats.committed) %]</p>
+  <p>[% loc("You can have a look at country / mongers or cities statistics.", make_uri('stats'), make_uri('stats', 'show', 'cities')) %]</p>
+  <p>{{The number of committed users is listed between parentheses}}</p>
+  <p>{{Click on the various links to find the corresponding users!}}</p>
 
-			<div class="row">
-				<p>
-			 		[% loc("You can have a look at country / mongers or cities statistics.", make_uri('stats'), make_uri('stats', 'show', 'cities')) %]
-				</p>
-			</div>
+  [% SWITCH global.request.args.show %]
+    [% CASE [ 'cities', 'towns' ] %]
+      <p>{{Note: the country total is not always equal to the city total.}}</p>
+      [% count = 0 %]
+      [% cols = 3 %]
+      <table class="user-stats_table table">
+        <thead>
+          <tr>
+            <th colspan="[% cols %]">{{Cities}}</th>
+          </tr>
+        </head>
+        <tbody>
+          <!-- cities within countries -->
+          [% IF stats.towns.size == 0 %]
+            <tr><td colspan="[% cols %]">{{No city information entered}}</td></tr>
+          [% END %]
+          [% FOREACH c = stats.countries %]
+            [% UNLESS count %]<tr>[% END %]
+            [% UNLESS stats.towns.${c.iso} %][% NEXT %][% END %]
+              <td>
+                <table class="table">
+                  [% FOREACH t = stats.towns.${c.iso} %]
+                    [% IF loop.count == 1 %]
+                      <thead>
+                        <tr>
+                          <th><a href="[% make_uri('search', 'country', c.iso) %]">[% c.name %]</a> [% c.count %]&nbsp;([% c.committed %])</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                    [% END %]
+                      <tr>
+                        <td><a href="[% make_uri('search', 'town', t.name, 'country', c.iso) %]">[% t.name %]</a></td>
+                        <td class="text-right">[% t.count %]&nbsp;([% t.committed %])</td>
+                      </tr>
+                    [% END %]
+                  </tbody>
+                </table>
+              </td>
+            [% IF count == cols - 1 %]</tr>[% END %]
+            [% count = ( count + 1) % cols %]
+          [% END %]
+        </tbody>
+      </table>
+    [% CASE DEFAULT %]
+    <table class="user-stats_talks table">
+      <thead>
+        <tr>
+          <th>{{Countries}}</th>
+          <th>{{Monger groups}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><!-- Countries -->
+            <table class="table">
+              [% FOREACH c = stats.countries %]
+                <tr>
+                  [% IF loop.count == 1 %]
+                    <th><a href="[% make_uri('search', 'country', c.iso) %]">[% c.name %]</a></th>
+                    <th class="text-right">[% c.count %]&nbsp;([% c.committed %])</th>
+                  [% ELSE %]
+                    <td><a href="[% make_uri('search', 'country', c.iso) %]">[% c.name %]</a></td>
+                    <td class="text-right">[% c.count %]&nbsp;([% c.committed %])</td>
+                  [% END %]
+                </tr>
+              [% END %]
+            </table>
+          </td>
+          <td><!-- PM groups -->
+            <table class="table">
+              [% '&nbsp;' UNLESS stats.pm.size %]
+              [% FOREACH pm = stats.pm %]
+                <tr>
+                  [% IF loop.count == 1 %]
+                    <th><a href="[% make_uri('search', 'pm_group', pm.name) %]">[% pm.name %]</a></th>
+                    <th class="text-right">[% pm.count %]&nbsp;([% pm.committed %])</th>
+                  [% ELSE %]
+                    <td><a href="[% make_uri('search', 'pm_group', pm.name) %]">[% pm.name %]</a></td>
+                    <td class="text-right">[% pm.count %]&nbsp;([% pm.committed %])</td>
+                  [% END %]
+                </tr>
+              [% END %]
+            </table>
+          </td>
+        </tr>
+      </table>
+    [% END %]
+</section>
 
-			<div class="row">
-				<p>
-			 		{{The number of committed users is listed between parentheses}}
-				</p>		
-			</div>
-
-			<div class="row">
-				<p>
-			 		{{Click on the various links to find the corresponding users!}}
-				</p>
-			</div>
-
-			[% SWITCH global.request.args.show %]
-			[% CASE [ 'cities', 'towns' ] %]
-			<p>
-			 {{Note: the country total is not always equal to the city total.}}
-			</p>
-			[% count = 0 %]
-			[% cols = 3 %]
-
-			<table border="1" cellspacing="0" cellpadding="4">
-			 <tr>
-				<th colspan="[% cols %]">{{Cities}}</th>
-			 </tr>
-				<!-- cities within countries -->
-				[% IF stats.towns.size == 0 %]
-				<td>{{No city information entered}}</td>
-				[% END %]
-				[% FOREACH c = stats.countries %]
-				[% UNLESS count %]<tr>[% END %]
-				 [% UNLESS stats.towns.${c.iso} %][% NEXT %][% END %]
-				 <td valign="top"><table width="100%">
-				 [% FOREACH t = stats.towns.${c.iso} %]
-				 [% IF loop.count == 1 %]
-					<tr><th colspan="2"><a href="[% make_uri('search', 'country', c.iso) %]">[% c.name %]</a> [% c.count %]&nbsp;([% c.committed %])</th></tr>
-				 [% END %]
-					<tr><td><a href="[% make_uri('search', 'town', t.name, 'country', c.iso) %]">[% t.name %]</a></td><td align="right">[% t.count %]&nbsp;([% t.committed %])</td></tr>
-				 [% END %]
-				 </td></tr></table></td>
-				 [% IF count == cols - 1 %]</tr>[% END %]
-				 [% count = ( count + 1) % cols %]
-				[% END %]
-				</tr>
-			</table>
-			[% CASE DEFAULT %]
-			<table class="talktable" border="0" cellspacing="0" cellpadding="4">
-			 <tr>
-				<th>{{Countries}}</th>
-				<th>{{Monger groups}}</th>
-			 </tr>
-			 <tr>
-				<!-- Countries -->
-				<td valign="top">
-				 <table cellpadding="4">
-					[% FOREACH c = stats.countries %]
-					<tr>
-					 [% IF loop.count == 1 %]
-					 <th valign="top" align="left">
-					 <a href="[% make_uri('search', 'country', c.iso) %]">[% c.name %]</a>
-					 </th><th valign="top" align="right">[% c.count %]&nbsp;([% c.committed %])</th>
-					 [% ELSE %]
-					 <td valign="top" align="left">
-					 <a href="[% make_uri('search', 'country', c.iso) %]">[% c.name %]</a>
-					 </td><td valign="top" align="right">[% c.count %]&nbsp;([% c.committed %])</td>
-					 [% END %]
-					</tr>
-					[% END %]
-				 </table>
-				</td>
-				<!-- PM groups -->
-				<td valign="top">
-				 <table cellpadding="4">
-					[% '&nbsp;' UNLESS stats.pm.size %]
-					[% FOREACH pm = stats.pm %]
-					<tr>
-					 [% IF loop.count == 1 %]
-						<th valign="top" align="left">
-						<a href="[% make_uri('search', 'pm_group', pm.name) %]">[% pm.name %]</a></th>
-						<th align="right">[% pm.count %]&nbsp;([% pm.committed %])</th>
-					 [% ELSE %]
-						<td valign="top" align="left">
-						<a href="[% make_uri('search', 'pm_group', pm.name) %]">[% pm.name %]</a></td>
-						<td align="right">[% pm.count %]&nbsp;([% pm.committed %])</td>
-					 [% END %]
-					 </tr>
-					[% END %]
-				 </table>
-				</td>
-			 </tr>
-			</table>
-			[% END %]
-
-		</div>
-	</section>
-</div>
 [% END %]

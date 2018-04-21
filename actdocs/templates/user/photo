@@ -1,48 +1,36 @@
 [% WRAPPER ui title = loc("Your photo") %]
 
 [% IF error;
-		 WRAPPER error_ui;
-			 loc("Image couldn't be read. Please upload your picture in one of the following formats:");
-			 formats.join(', ');
-		 END;
-	 END
+  WRAPPER error_ui;
+    loc("Image couldn't be read. Please upload your picture in one of the following formats:");
+    formats.join(', ');
+  END;
+END
 %]
 
-<div class="container npwsingle">
-    <section class="fsection section__main">
-        <div class="section-content-wrapper">
-            <h2>Change photo</h2>
-			<form method="POST" enctype="multipart/form-data">
-				[%- IF global.request.user.photo_name %]
-					<div class="form-row">
-						<img src="[% photo_uri %]" border="0">
-					</div>
-				[%- ELSE %]
-				<div class="form-row">
-					<h3>{{No photo}}</h3>
-				</div>
-				[% END %]
+<section class="user-photo">
+  <h1>Change photo</h1>
+  <form method="post" enctype="multipart/form-data">
+    [%- IF global.request.user.photo_name %]
+      <div class="img-wrap">
+        <img src="[% photo_uri %]">
+      </div class="img-wrap">
+    [%- ELSE %]
+      <p class="img-wrap">{{No photo}}</p>
+    [% END %]
 
+    <p class="info-box">{{This photo will probably end up on the conference who's who,}}</p>
 
-				<div class="form-row">
-					{{This photo will probably end up on the conference who's who,}}
-					;-)
-				</div>
+    <div class="input-wrap">
+      <input type="file" name="photo" size="40">
+    </div>
 
+    [%- IF global.request.user.photo_name %]
+      <button type="submit" class="button -danger" name="delete" value="{{Delete Photo}}">{{Delete Photo}}</button>
+    [% END %]
 
-				<div class="form-row">
-					<input type="file" name="photo" size="40" /><br />
-				</div>
-
-
-				[%- IF global.request.user.photo_name %]
-					 <input type="submit" class="submit-btn" name="delete" value="{{Delete Photo}}" />
-				[% END %]
-
-				<input type="submit" class="npw-submit" name="update" value="{{Update Photo}}" />
-			</form>
-		</div>
-	</section>
-</div>
+    <button type="submit" class="button" name="update" value="{{Update Photo}}">{{Update Photo}}</button>
+  </form>
+</section>
 
 [% END %]

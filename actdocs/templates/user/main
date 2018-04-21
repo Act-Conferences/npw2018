@@ -1,119 +1,113 @@
 [% WRAPPER ui title = loc("Main private page") %]
 
-<div class="container npwsingle">
-    <section class="fsection section__main">
-        <div class="section-content-wrapper">
-            <h2>Personal page</h2>
-            <p>
-                {{This is your personal page.}}
-                [% IF global.request.conference %]
-                [% loc("to <this conference>", global.conference.name) %]
-                [% ELSE %]
-                {{to Act-enabled conferences.}}
-                [% END %]
-            </p>
+<section class="user-profile">
+  <h1>Personal page</h1>
+  <p class="user-profile_intro">
+      {{This is your personal page.}}
+      [% IF global.request.conference %]
+      [% loc("to <this conference>", global.conference.name) %]
+      [% ELSE %]
+      {{to Act-enabled conferences.}}
+      [% END %]
+  </p>
 
-            [% IF global.request.conference %]
-                [% IF global.request.user.has_registered %]
-                    [% IF global.request.user.has_paid %]
-                        <p>{{You have purchased your conference ticket:}}</p>
-                        <p><blockquote>
-                            {{Order number}}: <strong>[% order.order_id %]</strong><br />
-                            {{Payment date}}: <strong>[% date_format(order.datetime, 'datetime_full') %] GMT</strong><br />
-                            {{Amount paid}}: <strong>[% order.amount %] [% order.currency %]</strong>
-                        </blockquote/></p>
-                        [% IF global.config.payment_invoices %]
-                            <p>[% loc("Download your invoice", make_uri_info('invoice', order.order_id)) %]</p>
-                        [% END %]
-                    [% ELSIF global.config.payment_type != "NONE" %]
-                        <p>
-                            [% IF !global.config.registration_gratis -%]
-                            {{You have not bought your conference ticket yet.}}
-                            [%- ELSE -%]
-                            {{You have not confirmed your participation to this conference yet.}}
-                            [%- END %]
-                            [% IF global.config.payment_open %]
-                                 {{Please consider doing so using our online payment system.}}
-                            [% ELSE %]
-                                {{Please consider doing so once our online payment system is ready.}}
-                            [% END %]
-                        </p>
-                    [% END %]
-                [% ELSIF !global.config.closed %]
-                    [% loc("You did not register for this conference", make_uri('register')) %]
-                [% END %]
+  [% IF global.request.conference %]
+    [% IF global.request.user.has_registered %]
+      [% IF global.request.user.has_paid %]
+        <p>{{You have purchased your conference ticket:}}</p>
+        <dl class="user-profile_ticket-info">
+          <dt>{{Order number}}</dt><dd>[% order.order_id %]</dd>
+          <dt>{{Payment date}}</dt><dd>[% date_format(order.datetime, 'datetime_full') %] GMT</dd>
+          <dt>{{Amount paid}}</dt><dd>[% order.amount %] [% order.currency %]</dd>
+        </dl>
+        [% IF global.config.payment_invoices %]
+          <p>[% loc("Download your invoice", make_uri_info('invoice', order.order_id)) %]</p>
+        [% END %]
+      [% ELSIF global.config.payment_type != "NONE" %]
+        <p>
+          [% IF !global.config.registration_gratis -%]
+            {{You have not bought your conference ticket yet.}}
+          [%- ELSE -%]
+            {{You have not confirmed your participation to this conference yet.}}
+          [%- END %]
+          [% IF global.config.payment_open %]
+            {{Please consider doing so using our online payment system.}}
+          [% ELSE %]
+            {{Please consider doing so once our online payment system is ready.}}
+          [% END %]
+        </p>
+      [% END %]
+    [% ELSIF !global.config.closed %]
+      [% loc("You did not register for this conference", make_uri('register')) %]
+    [% END %]
+  [% END %]
+
+  <h2>{{You can:}}</h2>
+  <ul class="user-profile_options">
+    [% IF global.request.user.has_registered %]
+      [% IF global.config.payment_type != "NONE" %]
+        [% IF global.config.payment_open %]
+            [% UNLESS global.request.user.has_paid %]
+              <li><a href="[% make_uri('purchase') %]">
+              [%- IF !global.config.registration_gratis -%]
+              {{purchase your conference ticket}}
+              [%- ELSE -%]
+              {{confirm your participation}}
+              [%- END -%]
+              </a><br /></li>
             [% END %]
-
-            <h3>{{You can:}}</h3>
-
-            <ul>
-                [% IF global.request.user.has_registered %]
-                  [% IF global.config.payment_type != "NONE" %]
-                    [% IF global.config.payment_open %]
-                        [% UNLESS global.request.user.has_paid %]
-                            <li><a href="[% make_uri('purchase') %]">
-                            [%- IF !global.config.registration_gratis -%]
-                            {{purchase your conference ticket}}
-                            [%- ELSE -%]
-                            {{confirm your participation}}
-                            [%- END -%]
-                            </a><br /></li>
-                        [% END %]
-                        [% IF additional_purchase %]
-                            <li><a href="[% make_uri('purchase') %]">{{make additional purchases}}</a><br /></li>
-                        [% END %]
-                    [% END %]
-                    [% IF orders.size %]
-                        <li><a href="[% make_uri('orders') %]">{{view all orders and invoices}}</li>
-                    [% END %]
-                  [% END %]
-                [% ELSIF !global.config.closed %]
-                    <li><a href="[% make_uri('register') %]">{{register for this conference}}</a><br /></li>
-                [% END %]
-                <li><a href="[% make_uri('change') %]">{{update your information}}</a><br /></li>
-                <li><a href="[% make_uri('photo') %]">{{manage your photo}}</a><br /></li>
-                <li><a href="[% make_uri('changepwd') %]">{{change your password}}</a></li>
-                [% IF global.request.conference AND talks.size %]
-                    <li>{{see your talks (accepted talks are shown in bold type)}}:
-                      <br />
-                      <ul>
-                       [% FOR t = talks %]
-                         <li>[% talk_link(t) %] [% talk_modify_link(t) %]</li>
-                       [% END %]
-                      </ul>
-                    </li>
-                [% END %]
-                [% IF global.config.talks_submissions_open
-                   AND global.request.user.has_registered %]
-                    <li><a href="[% make_uri('newtalk') %]">{{submit a talk}}</a><br /></li>
-                [% END %]
-                <li><a href="[% make_uri('logout') %]">{{log out}}</a></li>
-                [% IF can_unregister %]
-                <li><a href="[% make_uri('unregister') %]">[% loc("unregister from <this conference>", global.conference.name) %]</a></li>
-                [% END %]
-            </ul>
-
-            [% IF conferences.size %]
-            <h3>{{Other Act conferences:}}</h3>
-
-            <ul>
-            [% FOREACH c = conferences %]
-            [% NEXT IF c.begin < last_year %]
-            <li><a href="[% c.url %]">[% c.name %]</a>
-            [% SWITCH c.participation %]
-             [% CASE 'past' %]
-             {{(You were there)}}
-             [% CASE 'now' %]
-             {{(You are there)}}
-             [% CASE 'future' %]
-             {{(You will be there)}}
+            [% IF additional_purchase %]
+              <li><a href="[% make_uri('purchase') %]">{{make additional purchases}}</a><br /></li>
             [% END %]
-            </li>[% END %]
-            </ul>
-            [% END %]    
-        </div>
-    </section>
-</div>
+        [% END %]
+        [% IF orders.size %]
+          <li><a href="[% make_uri('orders') %]">{{view all orders and invoices}}</li>
+        [% END %]
+      [% END %]
+    [% ELSIF !global.config.closed %]
+      <li><a href="[% make_uri('register') %]">{{register for this conference}}</a><br /></li>
+    [% END %]
+    <li><a href="[% make_uri('change') %]">{{update your information}}</a><br /></li>
+    <li><a href="[% make_uri('photo') %]">{{manage your photo}}</a><br /></li>
+    <li><a href="[% make_uri('changepwd') %]">{{change your password}}</a></li>
+    [% IF global.request.conference AND talks.size %]
+      <li>
+        <p>{{see your talks (accepted talks are shown in bold type)}}:</p>
+        <ul>
+        [% FOR t = talks %]
+          <li>[% talk_link(t) %] [% talk_modify_link(t) %]</li>
+        [% END %]
+        </ul>
+      </li>
+    [% END %]
+    [% IF global.config.talks_submissions_open AND global.request.user.has_registered %]
+      <li><a href="[% make_uri('newtalk') %]">{{submit a talk}}</a><br /></li>
+    [% END %]
+    <li><a href="[% make_uri('logout') %]">{{log out}}</a></li>
+    [% IF can_unregister %]
+    <li><a href="[% make_uri('unregister') %]">[% loc("unregister from <this conference>", global.conference.name) %]</a></li>
+    [% END %]
+  </ul>
 
+  [% IF conferences.size %]
+    <h2>{{Other Act conferences:}}</h2>
+    <ul>
+      [% FOREACH c = conferences %]
+        [% NEXT IF c.begin < last_year %]
+        <li>
+          <a href="[% c.url %]">[% c.name %]</a>
+        [% SWITCH c.participation %]
+          [% CASE 'past' %]
+            {{(You were there)}}
+          [% CASE 'now' %]
+            {{(You are there)}}
+          [% CASE 'future' %]
+            {{(You will be there)}}
+        [% END %]
+        </li>
+      [% END %]
+    </ul>
+  [% END %]    
+</section>
 
 [% END %]

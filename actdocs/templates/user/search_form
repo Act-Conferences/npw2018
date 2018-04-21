@@ -1,65 +1,55 @@
 [% WRAPPER ui title = loc('Search for users') %]
-<div class="container npwsingle">
-	<section  class="fsection section__search">
-		<div class="section-content-wrapper">
-			<h2>Search</h2>
-			<form method="POST" action="[% global.request.r.uri %]" id="user-search">
+<section class="user-search">
+  <h1>{{Search form}}</h1>
+  <form method="get" action="[% global.request.r.uri %]" id="user-search">
+    <div class="input-wrap">
+      <label for="user-name">{{Name}}</label>
+      <input type="text" class="form-textinput" placeholder="{{Name}}" name="name" id="user-name" value="[% global.request.args.name %]" maxlength="60">
+    </div>
 
+    <div class="input-wrap">
+      <label for="user-town">{{Monger town}}</label>
+      <input type="text" class="form-textinput" placeholder="{{City}}" name="town" id="user-town" value="[% global.request.args.town %]"  maxlength="60">
+    </div>
 
-			<div class="row">
-				<h3>{{Search form}}</h3>
-			</div>
+    <div class="input-wrap">
+      <label for="user-country">{{Country}}</label>
+      <select name="country" id="user-country">
+        <option value=""[% ' selected="selected"' UNLESS global.request.args.country %]>{{Any}}</option>
+        [% FOREACH c = countries %]
+          <option value="[% c.iso %]"[% ' selected="selected"' IF global.request.args.country == c.iso %]>[% c.name %]</option>
+        [% END %]
+      </select>
+    </div>
 
-			<div class="row">
-				<input type="text" class="form-textinput" placeholder="{{Name}}" name="name" id="user-name" value="[% global.request.args.name %]" maxlength="60" />
-			</div>
-			
-			<div class="row">
-				<input type="text" class="form-textinput" placeholder="{{City}}" name="town" id="user-town" value="[% global.request.args.town %]"  maxlength="60" />
-			</div>
+    <div class="input-wrap">
+      <label for="user-group">{{Monger group}}</label>
+      <select name="pm_group" id="user-group">
+        <option value=""[% ' selected="selected"' UNLESS global.request.args.pm_group %]>{{Any}}</option>
+        [% FOREACH g = pm_groups %]
+          <option value="[% g %]"[% ' selected="selected"' IF global.request.args.pm_group == g %]>[% g %]</option>
+        [% END %]
+      </select>
+    </div>
 
-			<div class="row">
-				<label for="user-country">{{Country}}</label>
-				<select name="country" id="user-country">
-					 <option value=""[% ' selected="selected"' UNLESS global.request.args.country %]>{{Any}}</option>
-					 [% FOREACH c = countries %]
-							<option value="[% c.iso %]"[% ' selected="selected"' IF global.request.args.country == c.iso %]>[% c.name %]</option>
-					 [% END %]
-				</select>
-			</div>
+    <div class="input-wrap">
+      <button type="submit" class="button" name="search" value="{{Search}}">{{Search}}</button>
+    </div>
 
-			<div class="row">
-				<label for="user-group">{{Monger group}}</label>
-				<select name="pm_group" id="user-group">
-					 <option value=""[% ' selected="selected"' UNLESS global.request.args.pm_group %]>{{Any}}</option>
-					 
-					 [% FOREACH g = pm_groups %]
-							<option value="[% g %]"[% ' selected="selected"' IF global.request.args.pm_group == g %]>[% g %]</option>
-					 [% END %]
-				</select>
-			</div>
+    [% PROCESS user/list IF users %]
 
-			<div class="row">
-				<input type="submit" class="npw-submit" name="search" value="{{Search}}" />
-			</div>
-
-
-
-			[% PROCESS user/list IF users %]
-
-				[% IF prev %]
-					<input type="hidden" name="oprev" value="[% oprev %]" />
-					<input type="submit" name="prev"  value="&lt;&lt;" />
-				[% END %]
-				[% IF next %]
-					[% "&nbsp;&nbsp;&nbsp;" IF oprev %]
-					<input type="hidden" name="onext" value="[% onext %]" />
-					<input type="submit" name="next"  value="&gt;&gt;" />
-				[% END %]
-
-			</form>
-		</div>
-	</section>
-</div>
+    [% IF prev OR next %]
+    <div class="pager">
+      [% IF prev %]
+        <input type="hidden" name="oprev" value="[% oprev %]">
+        <button type="submit" class="pager_previous" name="prev" value="&lt;&lt;">&lt;&lt;</button>
+      [% END %]
+      [% IF next %]
+        <input type="hidden" name="onext" value="[% onext %]">
+        <button type="submit" name="next" value="&gt;&gt;">&gt;&gt;</button>
+      [% END %]
+    [% END %]
+  </form>
+</section>
 
 [% END %]
