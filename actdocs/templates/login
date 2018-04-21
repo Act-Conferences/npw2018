@@ -1,6 +1,8 @@
 [% WRAPPER ui title = loc("Log in") %]
 
 <section id="login">
+  <h1>Login</h1>
+
   <form method="post" action="[% action %]">
     <input type="hidden" name="destination" value="[% destination %]">
 
@@ -25,6 +27,7 @@
 
     <div class="submit-wrap">
       <button type="submit" name="join" value="{{Submit}}" class="button">{{Submit}}</button>
+      <a href="[% make_uri('register') %]">{{Register}}</a>
     </div>
   </form>
 

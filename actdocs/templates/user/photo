@@ -12,24 +12,23 @@ END
   <h1>Change photo</h1>
   <form method="post" enctype="multipart/form-data">
     [%- IF global.request.user.photo_name %]
-      <div class="img-wrap">
-        <img src="[% photo_uri %]">
-      </div class="img-wrap">
+      <p class="user-photo_photo"><img src="[% photo_uri %]"></p>
     [%- ELSE %]
-      <p class="img-wrap">{{No photo}}</p>
+      <p class="user-photo_photo">{{No photo}}</p>
     [% END %]
 
     <p class="info-box">{{This photo will probably end up on the conference who's who,}}</p>
 
-    <div class="input-wrap">
-      <input type="file" name="photo" size="40">
+    <div class="input-wrap -text">
+      <input type="file" name="photo">
     </div>
 
+    <div class="submit-wrap">
     [%- IF global.request.user.photo_name %]
       <button type="submit" class="button -danger" name="delete" value="{{Delete Photo}}">{{Delete Photo}}</button>
     [% END %]
-
-    <button type="submit" class="button" name="update" value="{{Update Photo}}">{{Update Photo}}</button>
+      <button type="submit" class="button" name="update" value="{{Update Photo}}">{{Update Photo}}</button>
+    </div>
   </form>
 </section>
 
