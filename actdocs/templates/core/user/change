@@ -21,7 +21,7 @@
 
   <form method="post" action="[% global.request.r.uri %]">
     <fieldset>
-      <legend>{{Basic information}}</legend>
+      <legend>Basic information</legend>
 
       <div class="input-wrap -radio">
         <label for="form-salutation">{{Salutation}}</label>
@@ -37,12 +37,12 @@
       </div>
 
       <div class="input-wrap -radio">
-        <span class="form-label">{{Nickname}}</span>
+        <label>{{Nickname}}</label>
         <input type="text" placeholder="{{Nickname}}" name="nick_name" id="form-nick-name" value="[% nick_name %]" maxlength="60">
         <p class="form-help">
           {{Stay pseudonymous}}?
-          <input type="radio" name="pseudonymous" value="1" [% "checked" IF pseudonymous %]> {{Yes}}
-          <input type="radio" name="pseudonymous" value="0" [% "checked" UNLESS pseudonymous %]> {{No}}
+          <label><input type="radio" name="pseudonymous" value="1" [% "checked" IF pseudonymous %]> {{Yes}}</label>
+          <label><input type="radio" name="pseudonymous" value="0" [% "checked" UNLESS pseudonymous %]> {{No}}</label>
         </p>
       </div>
 
@@ -51,8 +51,8 @@
         <input type="text" placeholder="{{Email}}" name="email" id="form-email" value="[% email %]" maxlength="60">
         <p class="form-help">
           <span class="form-label">{{Hide email}}</span>?
-          <input type="radio" name="email_hide" value="1" [% "checked" IF email_hide %] /> {{Yes}}
-          <input type="radio" name="email_hide" value="0" [% "checked" UNLESS email_hide %] /> {{No}}
+          <label><input type="radio" name="email_hide" value="1" [% "checked" IF email_hide %] /> {{Yes}}</label>
+          <label><input type="radio" name="email_hide" value="0" [% "checked" UNLESS email_hide %] /> {{No}}</label>
         </p>
       </div>
 
@@ -114,7 +114,7 @@
     </fieldset>
 
     <fieldset>
-      <legend>{{Online presence}}</legend>
+      <legend>Online presence</legend>
 
       <div class="input-wrap -text">
         <label for="form-webpage">{{Web page}}</label>
@@ -122,7 +122,6 @@
         [%- IF web_page %]
         <p class="form-help"><a href="[% web_page %]">[% web_page %]</a></p>
         [% END %]
-      </div>
       </div>
 
       <div class="input-wrap -text">
@@ -140,7 +139,7 @@
       </div>
 
       <div class="input-wrap -text">
-        <label for="form-pause_id">PAUSE {{Username}}</label>
+        <label for="form-pause_id">PAUSE ID</label>
         <input type="text" name="pause_id"  placeholder="PAUSE username" value="[% pause_id %]" maxlength="60">
         [%- IF pause_id %]
           <p class="form-help"><a href="https://metacpan.org/author/[% pause_id %]">[% pause_id %]</a></p>
@@ -170,7 +169,7 @@
     </fieldset>
 
     <fieldset>
-      <legend>{{Company information}}</legend>
+      <legend>Company information</legend>
 
       <div class="input-wrap -text">
         <label for="form-company">{{Name}}</label>
