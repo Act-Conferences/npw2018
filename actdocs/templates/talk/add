@@ -1,24 +1,29 @@
 [% WRAPPER ui title = loc("Submit/Edit a talk") %]
 
-[% PROCESS error
-   msgs = {
-    ERR_USER           => loc("You must specify a user"),
-    ERR_TITLE          => loc("You must enter a title for the talk"),
-    ERR_ABSTRACT       => loc("You must provide an abstract"),
-    ERR_DATE           => loc("The supplied date is invalid"),
-    ERR_TIME           => loc("The supplied time is invalid"),
-    ERR_DATERANGE      => loc("The date/time is out of range"),
-    ERR_DURATION       => loc("Please choose a duration"),
-    ERR_URL_ABSTRACT   => loc("Abstract URL is not a valid URL"),
-    ERR_URL_TALK       => loc("Talk URL is not a valid URL"),
-    ERR_ROOM           => loc("Incorrect room submitted"),
-    ERR_LEVEL          => loc("Please choose a target audience"),
-    ERR_LANG           => loc("Incorrect language"),
-  }
-%]
-
 <section class="user-talk-submit">
+  [% IF talk_id %]
+  <h1>Edit talk "[% talk_id %]"</h1>
+  [% ELSE %]
   <h1>New talk</h1>
+  [% END %]
+
+  [% PROCESS error
+    msgs = {
+      ERR_USER           => loc("You must specify a user"),
+      ERR_TITLE          => loc("You must enter a title for the talk"),
+      ERR_ABSTRACT       => loc("You must provide an abstract"),
+      ERR_DATE           => loc("The supplied date is invalid"),
+      ERR_TIME           => loc("The supplied time is invalid"),
+      ERR_DATERANGE      => loc("The date/time is out of range"),
+      ERR_DURATION       => loc("Please choose a duration"),
+      ERR_URL_ABSTRACT   => loc("Abstract URL is not a valid URL"),
+      ERR_URL_TALK       => loc("Talk URL is not a valid URL"),
+      ERR_ROOM           => loc("Incorrect room submitted"),
+      ERR_LEVEL          => loc("Please choose a target audience"),
+      ERR_LANG           => loc("Incorrect language"),
+    }
+  %]
+
   <form method="post" action="[% global.request.r.uri %]">
     [% IF return_url %]
       <input type="hidden" name="return_url" value="[% return_url %]">
@@ -27,10 +32,7 @@
     [% IF talk_id %]
       <input type="hidden" name="talk_id" value="[% talk_id %]">
       <p>
-        {{View}} <a href="[% make_uri_info('talk', talk_id) %]" >[% title %]</a>
-      </p>
-      <p>
-        <input type="checkbox" name="delete"> {{Delete this talk}}
+        <a href="[% make_uri_info('talk', talk_id) %]" >[% make_uri_info('talk', talk_id) %]</a>
       </p>
     [% END %]
 
@@ -109,25 +111,17 @@
         <input type="checkbox" name="is_lightning"[% ' checked' IF duration=='lightning' %]> {{Lightning talk}}
       </div>
     [% ELSE %]
-      [% IF talk_id %]
-        [% IF duration == 'lightning' %]
-          <p>{{Duration}}: {{Lightning talk}}.</p>
-        [% ELSE %]
-          <p>{{Duration}}: [% duration %] {{minutes}}.</p>
-        [% END %]
-      [% ELSE %]
-        <div class="input-wrap -select">
-          <label>{{Duration}}</label>
-          <select name="duration">
-            <option value=""[% ' selected="selected"' UNLESS duration %]>
-            <option value="lightning"[% ' selected="selected"' IF lightning %]>{{Lightning talk}}</option>
-            [% FOREACH d = global.config.talks_durations.keys.nsort %]
-              <option value="[% d %]"[% ' selected="selected"' IF d == duration %]>[% d %] {{minutes}}</option>
-            [% END %]
-          </select>
-          <p class="form-help">{{If the proposed durations do not quite fit your talk, please}}</p>
-        </div>
-      [% END %]
+      <div class="input-wrap -select">
+        <label>{{Duration}}</label>
+        <select name="duration"[% ' readonly="readonly"' IF duration %]>
+          <option value=""[% ' selected="selected"' UNLESS duration %]>
+          <option value="lightning"[% ' selected="selected"' IF lightning %]>{{Lightning talk}}</option>
+          [% FOREACH d = global.config.talks_durations.keys.nsort %]
+            <option value="[% d %]"[% ' selected="selected"' IF d == duration %]>[% d %] {{minutes}}</option>
+          [% END %]
+        </select>
+        <p class="form-help">{{If the proposed durations do not quite fit your talk, please}}</p>
+      </div>
     [% END %]
 
     [% IF global.config.talks_levels %]
@@ -176,6 +170,9 @@
     <div class="submit-wrap">
       <button type="submit" class="button" name="submit" value="{{Submit this talk}}">{{Submit this talk}}</button>
       <a href="[% make_uri('main') %]" class="button -link">Back to your profile</a>
+      [% IF talk_id %]
+        <button type="submit" class="button" name="delete" value="1">{{Delete this talk}}</button>
+      [% END %]
     </div>
 
     [% IF global.request.user.is_talks_admin %]

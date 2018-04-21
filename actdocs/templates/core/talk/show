@@ -1,102 +1,99 @@
 [% INCLUDE js/mytalks.js %]
-<div class="container npwsingle">
-	<section id="register" class="fsection section__talk">
-		<div class="section-content-wrapper">
-			<h2>Talk</h2>
-			<p>
-			<b>{{By}}</b>
-			[% user_info(user) %]
 
-			[% IF global.request.user.is_talks_admin || global.request.user.user_id == user_id %]
-			(<a href="[% make_uri('edittalk', 'talk_id', talk_id) %]">{{edit}}</a>)
-			[% END %]
-			[% IF user.pm_group %]
-				{{from}}
-				[% IF user.pm_group_url %]
-					<a href="[% user.pm_group_url %]">[% user.pm_group %]</a>
-				[% ELSE %]
-					[% user.pm_group %]
-				[% END %]
-			[% END %]
-			<br />
+<section class="talk">
+  <h1>[% title ? title : 'Talk ' _ talk_id %]</h1>
+  <dl class="talk_info">
+    <dt>{{By}}</dt>
+    <dd>
+      [% user_info(user) %]
+      [% IF global.request.user.is_talks_admin || global.request.user.user_id == user_id %]
+        (<a href="[% make_uri('edittalk', 'talk_id', talk_id) %]">{{edit}}</a>)
+      [% END %]
+      [% IF user.pm_group %]
+        {{from}}
+        [% IF user.pm_group_url %]
+          <a href="[% user.pm_group_url %]">[% user.pm_group %]</a>
+        [% ELSE %]
+          [% user.pm_group %]
+        [% END %]
+      [% END %]
+    </dd>
 
-			[% IF lightning %]
-				{{Lightning talk}} <br />
-			[% ELSE %]
-				<b>{{Date:}}</b>
-				[% IF datetime && ( global.config.talks_show_schedule || global.request.user.is_talks_admin ) %]<a href="[% make_uri( 'schedule?day=' _ date_format(datetime, 'date_iso') ) %]" >[% date_format(datetime, 'date_full') %]</a> [% date_format(datetime, 'time' ) ; ELSE %]
-				{{Not scheduled yet.}}[% END %]<br />
+    <dt>{{Date:}}</dt>
+    [% IF lightning %]
+      <dd>{{Lightning talk}}>/dd>
+    [% ELSE %]
+      <dd>
+        [% IF datetime && ( global.config.talks_show_schedule || global.request.user.is_talks_admin ) %]
+          <a href="[% make_uri( 'schedule?day=' _ date_format(datetime, 'date_iso') ) %]">[% date_format(datetime, 'date_full') %]</a> [% date_format(datetime, 'time' ) %]
+        [% ELSE %]
+          {{Not scheduled yet.}}
+        [% END %]
+      </dd>
+    [% END %]
 
-			<b>{{Duration:}}</b> [% duration %]
-				 {{minutes}}<br />
-			[% END %]
+    <dt>{{Duration:}}</dt>
+    <dd>[% duration %] {{minutes}}</dd>
 
-			[% IF global.config.talks_levels %]
-			<b>{{Target audience:}}</b>
-				[% level %]<br />
-			[% END %]
+    [% IF global.config.talks_levels %]
+      <dt>{{Target audience:}}</dt>
+      <dd>[% level %]</dd>
+    [% END %]
 
-			[% IF global.config.talks_languages %]
-			<b>{{Language:}}</b>
-				[% global.config.talks_languages.$lang %]<br />
-			[% END %]
+    [% IF global.config.talks_languages %]
+      <dt>{{Language:}}</dt>
+      <dd>[% global.config.talks_languages.$lang %]</dd>
+    [% END %]
 
-			[% IF ( global.request.user.is_talks_admin || global.request.user.user_id == user_id)
-						AND comment %]
-			<b>{{Comment:}}</b>
-			[% comment %]<br />
-			[% END %]
+    [% IF ( global.request.user.is_talks_admin || global.request.user.user_id == user_id) AND comment %]
+      <dt>{{Comment:}}</dt>
+      <dd>[% comment %]</dd>
+    [% END %]
+  </dl>
 
-			[% showtags(tags, 'talks') %]
+  <p class="talk_tags">[% showtags(tags, 'talks') %]</p>
 
-			</p>
-			[% IF url_abstract || url_talk %]
-			<p> {{You can find more information on the speaker's site:}}</p>
-			 <ul>
-				[% IF url_abstract %]
-						<li>{{Abstract:}}
-							 <a href="[% url_abstract %]">[% url_abstract %]</a>
-						</li>
-				[% END %]
-				[% IF url_talk %]
-						<li>{{Talk:}}
-							 <a href="[% url_talk %]">[% url_talk %]</a>
-						</li>
-				[% END %]
-			 </ul>
-			[% END %]
+  [% IF url_abstract || url_talk %]
+    <p>{{You can find more information on the speaker's site:}}</p>
+    <dl class="talk_resources">
+      [% IF url_abstract %]
+        <dt>{{Abstract:}}</dt>
+        <dd><a href="[% url_abstract %]">[% url_abstract %]</a></dd>
+      [% END %]
+      [% IF url_talk %]
+        <dt>{{Talk:}}</dt>
+        <dd><a href="[% url_talk %]">[% url_talk %]</a></dd>
+      [% END %]
+    </dl>
+  [% END %]
 
-			<hr />
-			<p>
-			[% expand(chunked_abstract) | html_line_break %]
-			</p>
+  <hr class="talk_separator">
 
-			[% IF attendees.size %]
-			<b>{{Attended by:}}</b>
-			<ul>
-			[% FOREACH u IN attendees %]
-				<li>[% user_info(u) %]</li>
-			[% END %]
-			</ul>
-			[% END %]
+  <p>[% expand(chunked_abstract) | html_line_break %]</p>
 
-			[% IF global.request.user.has_registered %]
-			<form method="POST" action="[% make_uri('updatemytalks') %]" />
-			<input type="checkbox"
-						 name="mt-[% talk_id %]"
-						 value="[% talk_id %]"
-						 [% IF global.request.user.is_my_talk(talk_id) %]
-							 title = "{{remove from personal schedule}}"
-							 checked = "checked"
-						 [% ELSE %]
-							 title = "{{add to personal schedule}}"
-						 [% END %]
-			/>
-			<span id="my-[% talk_id %]-text">{{add to personal schedule}}</span>
-			<input type="hidden" name="talk_id" value="[% talk_id %]" />
-			<input type="submit" class="mytalks_submit" value="{{Submit}}" />
-			</form>
-		</div>
-	</section>
-</div>
-[% END %]
+  [% IF attendees.size %]
+    <h2>{{Attended by:}}</h2>
+    <ul class="talk_attendees">
+      [% FOREACH u IN attendees %]
+        <li>[% user_info(u) %]</li>
+      [% END %]
+    </ul>
+  [% END %]
+
+  [% IF global.request.user.has_registered %]
+    <form method="post" action="[% make_uri('updatemytalks') %]" class="form-horizontal">
+      <div class="input-wrap -radio">
+        <input type="hidden" name="talk_id" value="[% talk_id %]">
+        <label>
+          <input type="checkbox" name="mt-[% talk_id %]" value="[% talk_id %]"
+            [% IF global.request.user.is_my_talk(talk_id) %]
+              title = "{{remove from personal schedule}}"
+              checked = "checked"
+            [% ELSE %]
+              title = "{{add to personal schedule}}"
+          [% END %]>{{add to personal schedule}}</label>
+        <button type="submit" class="button" value="{{Submit}}">{{Submit}}</button>
+      </div>
+    </form>
+  [% END %]
+</section>
