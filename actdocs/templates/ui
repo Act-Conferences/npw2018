@@ -56,6 +56,11 @@
       <li><a href="//oslo.pm/npw2018/info">Information</a></li>
       <li><a href="//oslo.pm/npw2018/news">News</a></li>
       <li><a href="//oslo.pm/npw2018/info#contact">Contact</a></li>
+      [% IF global.request.user %]
+	<li><a href="[% make_uri('main') %]">Profile</a></li>
+      [% ELSE %]
+	<li><a href="[% make_uri('main') %]">Log in/Register</a></li>
+      [% END %]
     </ul>
   </nav>
 
