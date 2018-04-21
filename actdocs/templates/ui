@@ -1,65 +1,103 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-				"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="[% global.request.language %]" xml:lang="[% global.request.language %]">
+<!DOCTYPE html>
+<html>
+  <head>
+  <!-- Begin Jekyll SEO tag v2.4.0 -->
+  <title>Nordic Perl Workshop and Mojoconf 2018 in Oslo, Norway | Oslo Perl Mongers</title>
+  <meta name="generator" content="Jekyll v3.7.3" />
+  <meta property="og:title" content="Nordic Perl Workshop and Mojoconf 2018 in Oslo, Norway" />
+  <meta name="author" content="Oslo.pm board members" />
+  <meta property="og:locale" content="en_US" />
+  <meta name="description" content="Check out Oslo.pm for news about Perl in Oslo/Norway" />
+  <meta property="og:description" content="Check out Oslo.pm for news about Perl in Oslo/Norway" />
+  <link rel="canonical" href="http://oslo.pm/npw2018/" />
+  <meta property="og:url" content="http://oslo.pm/npw2018/" />
+  <meta property="og:site_name" content="Oslo Perl Mongers" />
+  <meta property="article:publisher" content="groups/oslo.pm" />
+  <script type="application/ld+json">
+  {"description":"Check out Oslo.pm for news about Perl in Oslo/Norway","author":{"@type":"Person","name":"Oslo.pm board members"},"@type":"WebPage","url":"http://oslo.pm/npw2018/","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://oslo.pm/images/oslo.pm-logo.png"},"name":"Oslo.pm board members"},"headline":"Nordic Perl Workshop and Mojoconf 2018 in Oslo, Norway","@context":"http://schema.org"}</script>
+  <!-- End Jekyll SEO tag -->
 
-<head>
-	<!-- Document Metadata -->
-	<meta http-equiv="Content-Language" content="[% global.request.language %]" />
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!-- OpenId -->
-	[% IF openid %]
-	<link rel="openid.server" href="[% global.request.base_url %][% make_uri('openid') %]" />
-	[% END %]
-	<!-- Atom news feed -->
-	<link rel="alternate" type="application/atom+xml" title="[% global.conference.name %]"
-				href="[% global.request.base_url %][% make_uri_info( 'atom', global.request.language ) %].xml" />
-	[%- IF title -%]<title>[% title  %]</title>[%- END -%]
+  <!-- OpenId -->
+  [% IF openid %]
+  <link rel="openid.server" href="[% global.request.base_url %][% make_uri('openid') %]" />
+  [% END %]
 
-	<!-- CSS Stylesheets -->
-	<link rel="stylesheet" type="text/css" href="[% make_uri_info('css', 'format.css') %]" />
-	<link rel="stylesheet" type="text/css" href="[% make_uri_info('css', 'npw.css') %]" />
-	<!--[if IE 9]>
-		<link rel="stylesheet" type="text/css" href="[% make_uri_info('css', 'npwie9.css') %]">
-	<![endif]-->
-	<link rel="stylesheet" type="text/css" href="/css/act-base.css" />
-	<link rel="stylesheet" type="text/css" href="/css/schedule.css" />
-
-	<!-- JavaScript sugar -->
-	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-	<script type="text/javascript" src="/js/act.js"></script>
-
-	<script src="[% make_uri_info('js', 'modernizr.custom.min.js') %]"></script>
-	<script src="[% make_uri_info('js', 'device.min.js') %]"></script>
-	<script src="[% make_uri_info('js', 'main.js') %]"></script>
-
-	<!-- Favorite icon -->
-	<link rel="shortcut icon" type="image/png" href="/favicon.png" />
-
-	<link rel="image_src" href="http://act.yapc.eu/npw2014/image/hki.jpg" />
-        <meta property="og:image" content="http://act.yapc.eu/npw2014/image/hki.jpg" />
+  <link type="application/atom+xml" rel="alternate" href="http://oslo.pm/feed.xml" title="Oslo Perl Mongers" />
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Content-Language" content="[% global.request.language %]" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width">
+  <link rev="made" title="Oslo.pm aktive" href="mailto:oslo-aktive@pm.org">
+  <link rel="icon" type="image/png" href="//oslo.pm/images/oslo.pm-logo.png">
+  <link rel="shortcut icon" type="image/png" href="//oslo.pm/images/oslo.pm-logo.png">
+  <link rel="stylesheet" href="//oslo.pm/css/npw2018.css">
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-105831431-1', 'auto');
+  ga('send', 'pageview');
+  </script>
 </head>
 
 <body>
-	<nav class="navigation">
-		<header class="nav-header" >
 
-			<div id="mobile" class="nav-header__menu-button">
-				<div class="icon-menu-wrapper">
-					<span class="icon icon-menu paused"></span>
-				</div>
-			</div>
-		</header>
-		<section class="nav-sidebar">
-			<div class="nav-sidebar__wrapper">
-				<ul class="nav-sidebar__links">
-					[% PROCESS menus/indexmenu %]
-				</ul>
-				<ul class="nav-sidebar__links menu-extended">
-					[% PROCESS menus/indexmenu_extended %]
-				</ul>
-			</div>
-		</section>
-	</nav>
-	[% content %]
+<div class="wrapper">
+  <div class="main-header">
+    <h1>Nordic perl workshop and Mojoconf</h1>
+    <h2>in Oslo</h2>
+    <p>6 - 7 September, 2018</p>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="//oslo.pm/npw2018">Home</a></li>
+      <li><a href="//oslo.pm/npw2018/info">Information</a></li>
+      <li><a href="//oslo.pm/npw2018/news">News</a></li>
+      <li><a href="//oslo.pm/npw2018/info#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="content">[% content %]</div>
+
+  <footer class="site-footer">
+    <ul>
+      <li>
+        Powered by <a href="/">Oslo.pm</a>
+        and <a href="https://github.com/oslo-pm">Github</a>
+      </li>
+      <li>
+        <a href="https://github.com/oslo-pm/NPW2018/issues">Tasks</a>
+      </li>
+      <li>
+        <a href="https://www.meetup.com/Oslo-pm/" class="page-link">Meetup</a>
+      </li>
+      <li class="last">
+        <a href="/npw2018/feed.xml"><img src="/images/rss.gif" alt="Atom feed"></a>
+      </li>
+    </ul>
+  </div>
+  </footer>
+</div>
+
+<script>
+(function(w, d) {
+  var noQuery = d.querySelector(".no-query");
+  var query = location.href;
+
+  query = query.match(/\bq=/) ? query.replace(/.*q=(.*)/, "$1").replace(/\+/g, " ") : "";
+
+  [].forEach.call(d.querySelectorAll(".search-form"), function(form) {
+    form.action = "/search";
+    [].forEach.call(form.querySelectorAll("[type=hidden]"), function(el) {
+      el.parentNode.removeChild(el);
+    });
+    form.querySelector("input").value = decodeURIComponent(query);
+  });
+
+  if (!query && noQuery) noQuery.classList.remove("hide");
+})(window, document);
+</script>
 </body>
 </html>
