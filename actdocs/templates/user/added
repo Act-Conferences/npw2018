@@ -1,5 +1,12 @@
 [% WRAPPER ui title = loc("Registered!") %]
 
+<nav class="sub-nav">
+  <ul>
+    <li><a href="[% make_uri('search') %]">{{Search}}</a></li>
+    <li><a href="[% make_uri('stats') %]">{{Statistics}}</a></li>
+  </ul>
+</nav>
+
 <section id="user-added">
   <h1>Registered</h1>
   <p>[% loc('Congratulations, you are now registered', login, clear_passwd) %]</p>

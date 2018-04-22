@@ -3,6 +3,7 @@
 <nav class="sub-nav">
   <ul>
     <li><a href="[% make_uri('search') %]">{{Search}}</a></li>
+    <li><a href="[% make_uri('stats') %]">{{Statistics}}</a></li>
     <li><a href="[% make_uri('talks') %]">Talks</a></li>
     <li><a href="[% make_uri('favtalks') %]">{{Favorite Talks}}</a></li>
     [% IF global.request.user.is_users_admin %]

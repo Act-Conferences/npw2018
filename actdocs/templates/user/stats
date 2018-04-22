@@ -1,5 +1,12 @@
 [% WRAPPER ui title = loc('<conf name> Statistics', global.conference.name) %]
 
+<nav class="sub-nav">
+  <ul>
+    <li><a href="[% make_uri('search') %]">{{Search}}</a></li>
+    <li class="active"><a href="[% make_uri('stats') %]">{{Statistics}}</a></li>
+  </ul>
+</nav>
+
 <section id="user-stats" class="user-stats">
   <h1>Registered users</h1>
 
@@ -63,17 +70,14 @@
         <tr>
           <td><!-- Countries -->
             <table class="table">
-              [% FOREACH c = stats.countries %]
-                <tr>
-                  [% IF loop.count == 1 %]
-                    <th><a href="[% make_uri('search', 'country', c.iso) %]">[% c.name %]</a></th>
-                    <th class="text-right">[% c.count %]&nbsp;([% c.committed %])</th>
-                  [% ELSE %]
+              <tbody>
+                [% FOREACH c = stats.countries %]
+                  <tr>
                     <td><a href="[% make_uri('search', 'country', c.iso) %]">[% c.name %]</a></td>
                     <td class="text-right">[% c.count %]&nbsp;([% c.committed %])</td>
-                  [% END %]
-                </tr>
-              [% END %]
+                  </tr>
+                [% END %]
+              </tbody>
             </table>
           </td>
           <td><!-- PM groups -->

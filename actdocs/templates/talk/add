@@ -6,6 +6,7 @@
     [% IF global.request.user %]
       <li><a href="[% make_uri('favtalks') %]">{{Favorite Talks}}</a></li>
     [% END %]
+    <li class="active"><a href="[% make_uri('newtalk') %]">{{submit a talk}}</a></li>
     [% IF talk_id %]
       <li><a href="[% make_uri_info('talk', talk_id) %]">{{View}}</a></li>
     [% END %]

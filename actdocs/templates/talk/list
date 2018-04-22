@@ -5,6 +5,7 @@
 
 <nav class="sub-nav">
   <ul>
+    <li class="active"><a href="[% make_uri('talks') %]">Talks</a></li>
     [% IF global.request.user %]
       <li><a href="[% make_uri('favtalks') %]">{{Favorite Talks}}</a></li>
     [% END %]

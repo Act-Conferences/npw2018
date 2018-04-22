@@ -2,9 +2,8 @@
 
 <nav class="sub-nav">
   <ul>
+    <li class="active"><a href="[% make_uri('search') %]">{{Search}}</a></li>
     <li><a href="[% make_uri('stats') %]">{{Statistics}}</a></li>
-    <li><a href="[% make_uri('talks') %]">Talks</a></li>
-    <li><a href="[% make_uri('favtalks') %]">{{Favorite Talks}}</a></li>
   </ul>
 </nav>
 

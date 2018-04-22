@@ -1,16 +1,17 @@
 [% WRAPPER ui title = loc("Your photo") %]
 
-[% IF error;
-  WRAPPER error_ui;
-    loc("Image couldn't be read. Please upload your picture in one of the following formats:");
-    formats.join(', ');
-  END;
-END
-%]
-
 <section class="user-photo">
   <h1>Change photo</h1>
+
   <form method="post" enctype="multipart/form-data">
+    [% IF error;
+      WRAPPER error_ui;
+        loc("Image couldn't be read. Please upload your picture in one of the following formats:");
+        formats.join(', ');
+      END;
+    END
+    %]
+
     [%- IF global.request.user.photo_name %]
       <p class="user-photo_photo"><img src="[% photo_uri %]" alt="" class="float-right"></p>
     [%- ELSE %]
