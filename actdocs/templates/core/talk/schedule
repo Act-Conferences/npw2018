@@ -7,9 +7,7 @@
       <li><a href="[% make_uri('favtalks') %]">{{Favorite Talks}}</a></li>
     [% END %]
     <li class="active"><a href="[% make_uri('schedule') %]">{{Schedule}}</a></li>
-    [% IF global.request.user.is_talks_admin || global.request.user.user_id == user_id %]
-      <li><a href="[% make_uri('edittalk', 'talk_id', talk_id) %]">{{edit}}</a></li>
-    [% END %]
+    <li><a href="[% make_uri('newtalk') %]">{{submit a talk}}</a></li>
   </ul>
 </nav>
 
@@ -57,7 +55,7 @@
     [% IF table.keys.size %]
       <p class="info-box">
         Preliminary schedule, the order and time of the talks may change.
-        There is still plenty of room for talks. <a href="/npw2014/newtalk">Submit your talk</a>.
+        There is still plenty of room for talks. <a href="[% make_uri('newtalk') %]">Submit your talk</a>.
       </p>
       [% day = global.request.args.day %]
       [% UNLESS day AND table.$day.size;       # no valid day specified
