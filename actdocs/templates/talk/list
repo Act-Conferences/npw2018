@@ -4,10 +4,12 @@
    WRAPPER ui title = title %]
 
 <nav class="sub-nav">
-  [% IF global.request.user %]
-    <li><a href="[% make_uri('favtalks') %]">{{Favorite Talks}}</a></li>
-  [% END %]
-  <li><a href="[% make_uri('newtalk') %]">{{submit a talk}}</a></li>
+  <ul>
+    [% IF global.request.user %]
+      <li><a href="[% make_uri('favtalks') %]">{{Favorite Talks}}</a></li>
+    [% END %]
+    <li><a href="[% make_uri('newtalk') %]">{{submit a talk}}</a></li>
+  </ul>
 </nav>
 
 <section class="talks-list">

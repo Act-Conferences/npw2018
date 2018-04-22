@@ -1,8 +1,10 @@
 [% WRAPPER ui title = loc("Favorite Talks") %]
 
 <nav class="sub-nav">
-  <li><a href="[% make_uri('talks') %]">Talks</a></li>
-  <li><a href="[% make_uri('newtalk') %]">{{submit a talk}}</a></li>
+  <ul>
+    <li><a href="[% make_uri('talks') %]">Talks</a></li>
+    <li><a href="[% make_uri('newtalk') %]">{{submit a talk}}</a></li>
+  </ul>
 </nav>
 
 <section class="talks-favorites">
@@ -35,7 +37,10 @@
             [% END %]
           </td>
           [% IF global.request.user.is_talks_admin OR global.config.talks_show_schedule %]
-            <td>[% IF f.talk.datetime; date_format(f.talk.datetime, 'datetime_short');
+            <td>
+              [% IF f.talk.datetime; date_format(f.talk.datetime, 'datetime_short');
+              ELSE; '&nbsp;'; END %]
+            </td>
           [% END %]
         </tr>
       [% END %]

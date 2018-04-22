@@ -88,13 +88,15 @@
   [% END %]
 
   [% IF global.request.user.has_registered %]
-    <form method="post" action="[% make_uri('updatemytalks') %]" class="form-horizontal">
-      <input type="hidden" name="talk_id" value="[% talk_id %]">
-      [% IF global.request.user.is_my_talk(talk_id) %]
-        <button type="submit" class="button -danger">{{remove from personal schedule}}</button>
-      [% ELSE %]
-        <button type="submit" class="button" name="mt-[% talk_id %]" value="[% talk_id %]">{{add to personal schedule}}</button>
-      [% END %]
-    </form>
+    [% UNLESS global.request.user.user_id == user_id %]
+      <form method="post" action="[% make_uri('updatemytalks') %]" class="form-horizontal">
+        <input type="hidden" name="talk_id" value="[% talk_id %]">
+        [% IF global.request.user.is_my_talk(talk_id) %]
+          <button type="submit" class="button" name="mt-[% talk_id %]" value="[% talk_id %]">{{add to personal schedule}}</button>
+        [% ELSE %]
+          <button type="submit" class="button -danger">{{remove from personal schedule}}</button>
+        [% END %]
+      </form>
+    [% END %]
   [% END %]
 </section>
