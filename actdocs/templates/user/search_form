@@ -1,8 +1,8 @@
 [% WRAPPER ui title = loc('Search for users') %]
 <section class="user-search">
-  <h1>{{Search form}}</h1>
+  <h1>[% loc('Search for users') %]</h1>
 
-  <form method="get" action="[% global.request.r.uri %]" id="user-search" class="horizontal-form">
+  <form method="get" action="[% global.request.r.uri %]" id="user-search" class="form-horizontal">
     <div class="clearfix">
       <div class="input-wrap -text">
         <label for="user-name">{{Name}}</label>

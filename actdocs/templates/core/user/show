@@ -10,7 +10,7 @@
     [% END %]
   </h1>
 
-  <div class="user-show_photo"
+  <div class="user-show_photo">
     [%- IF user.photo_name %]
         <img src="/[% global.config.general_dir_photos %]/[% user.photo_name %]" border="0" alt="Photo">
     [%- ELSE %]
@@ -25,10 +25,10 @@
     [% END %]
     [%- IF user.town %]
       <dt>{{City}}</dt>
-      <dd>[% user.town %]</dd>
+      <dd><a href="[% make_uri('search') %]?town=[% user.town %]">[% user.town %]</a></dd>
     [% END %]
       <dt>{{Country}}</dt>
-      <dd>[% country %]</dd>
+      <dd><a href="[% make_uri('search') %]?country=[% country %]">[% country %]</a></dd>
     [%- IF user.pm_group %]
       <dt>{{Perl mongers group}}</dt>
       <dd>
@@ -42,14 +42,14 @@
     [% END %]
     [%- IF NOT user.email_hide OR global.request.user.is_users_admin %]
       <dt>{{Email}}</dt>
-      <dd><a href="mailto:[% user.email %]">[% user.email %]</a</dd>
+      <dd><a href="mailto:[% user.email %]">[% user.email %]</a></dd>
     [% END %]
     [%- IF user.web_page %]
       <dt>{{Web page}}</dt>
       <dd><a href="[% user.web_page %]">[% user.web_page %]</a></dd>
     [% END %]
     [%- IF user.pause_id %]
-      <dt><a href="https://pause.perl.org/">PAUSE</a> id</dt>
+      <dt>PAUSE id</dt>
       <dd><a href="https://metacpan.org/author/[% user.pause_id %]/" >[% user.pause_id %]</a></dd>
     [% END %]
     [%- IF user.monk_id %]
