@@ -1,5 +1,5 @@
 [% USE date %]
-<section id="register">
+<section id="register" class="user-register">
   <h2>Register</h2>
   [% IF date.now > end_date %]
     <p>{{Sorry, this conference is over.}}</p>
