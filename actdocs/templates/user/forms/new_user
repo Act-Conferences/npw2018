@@ -39,7 +39,7 @@
   </div>
 
   <div class="input-wrap -select">
-    <label>{{T-Shirt}}>/label>
+    <label>{{T-Shirt}}</label>
     <select name="tshirt">
       [% FOREACH t = ['', 'XS', 'XS (W)', 'S', 'S (W)', 'M', 'M (W)',
       'L', 'L (W)', 'XL', 'XL (W)', 'XLT', 'XXL',

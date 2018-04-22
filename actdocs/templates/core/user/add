@@ -28,15 +28,15 @@
     %]
 
     [% IF duplicates.size ;
-        "<ol>";
+        "<ul>";
         FOREACH u IN duplicates ;
-          "<li>[" ; u.login ; "] ";
+          "<li>";
           user_info_x(u);
           IF ! u.email_hide ; " &lt;"; u.email; "&gt;" ; END ;
           " ("; u.country_name;
           ")</li>";
         END;
-        "</ol>";
+        "</ul>";
       %]
       <p>[% loc("Use the links above to check if you are one of those.", make_uri('main')) %]</p>
     [% END %]

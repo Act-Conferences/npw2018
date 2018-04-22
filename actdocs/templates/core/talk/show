@@ -67,9 +67,7 @@
     </dl>
   [% END %]
 
-  <hr class="talk_separator">
-
-  <p>[% expand(chunked_abstract) | html_line_break %]</p>
+  <p class="talk_abstract">[% expand(chunked_abstract) | html_line_break %]</p>
 
   [% IF attendees.size %]
     <h2>{{Attended by:}}</h2>
@@ -82,18 +80,12 @@
 
   [% IF global.request.user.has_registered %]
     <form method="post" action="[% make_uri('updatemytalks') %]" class="form-horizontal">
-      <div class="input-wrap -radio">
-        <input type="hidden" name="talk_id" value="[% talk_id %]">
-        <label>
-          <input type="checkbox" name="mt-[% talk_id %]" value="[% talk_id %]"
-            [% IF global.request.user.is_my_talk(talk_id) %]
-              title = "{{remove from personal schedule}}"
-              checked = "checked"
-            [% ELSE %]
-              title = "{{add to personal schedule}}"
-          [% END %]>{{add to personal schedule}}</label>
-        <button type="submit" class="button" value="{{Submit}}">{{Submit}}</button>
-      </div>
+      <input type="hidden" name="talk_id" value="[% talk_id %]">
+      [% IF global.request.user.is_my_talk(talk_id) %]
+        <button type="submit" class="button" name="mt-[% talk_id %]" value="[% talk_id %]">{{add to personal schedule}}</button>
+      [% ELSE %]
+        <button type="submit" class="button -danger">{{remove from personal schedule}}</button>
+      [% END %]
     </form>
   [% END %]
 </section>
