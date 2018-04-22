@@ -4,7 +4,7 @@
   <h1>Register</h1>
 
   <p>
-    If you have an existing YAPC account, please <a href="[% make_uri('main') %]">Log in></a>
+    If you have an existing YAPC account, please <a href="[% make_uri('main') %]">Log in</a>
     first. New users can start registration by entering their email address below.
   </p>
 
@@ -24,7 +24,7 @@
 
     <div class="submit-wrap">
       <button type="submit" class="button" name="twostepsubmit" value="Register">Register</button>
-      <a href="[% make_uri('main') %]" class="button -link">Log in></a>
+      <a href="[% make_uri('main') %]" class="button -link">Log in</a>
     </div>
   </form>
 </section>
