@@ -1,10 +1,22 @@
 [% WRAPPER ui title = loc("Submit/Edit a talk") %]
 
+<nav class="sub-nav">
+  <ul>
+    <li><a href="[% make_uri('talks') %]">Talks</a></li>
+    [% IF global.request.user %]
+      <li><a href="[% make_uri('favtalks') %]">{{Favorite Talks}}</a></li>
+    [% END %]
+    [% IF talk_id %]
+      <li><a href="[% make_uri_info('talk', talk_id) %]">{{View}}</a></li>
+    [% END %]
+  </ul>
+</nav>
+
 <section class="user-talk-submit">
   [% IF talk_id %]
-  <h1>Edit talk "[% talk_id %]"</h1>
+    <h1>Edit talk "[% talk_id %]"</h1>
   [% ELSE %]
-  <h1>New talk</h1>
+    <h1>Submit talk</h1>
   [% END %]
 
   [% PROCESS error
@@ -31,9 +43,6 @@
 
     [% IF talk_id %]
       <input type="hidden" name="talk_id" value="[% talk_id %]">
-      <p>
-        <a href="[% make_uri_info('talk', talk_id) %]" >[% make_uri_info('talk', talk_id) %]</a>
-      </p>
     [% END %]
 
     [% IF global.request.user.is_talks_admin %]
@@ -169,9 +178,8 @@
 
     <div class="submit-wrap">
       <button type="submit" class="button" name="submit" value="{{Submit this talk}}">{{Submit this talk}}</button>
-      <a href="[% make_uri('main') %]" class="button -link">Back to your profile</a>
       [% IF talk_id %]
-        <button type="submit" class="button" name="delete" value="1">{{Delete this talk}}</button>
+        <button type="submit" class="button -danger" name="delete" value="1">{{Delete this talk}}</button>
       [% END %]
     </div>
 

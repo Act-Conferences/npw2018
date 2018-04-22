@@ -1,4 +1,13 @@
 [% WRAPPER ui title = loc('Search for users') %]
+
+<nav class="sub-nav">
+  <ul>
+    <li><a href="[% make_uri('stats') %]">{{Statistics}}</a></li>
+    <li><a href="[% make_uri('talks') %]">Talks</a></li>
+    <li><a href="[% make_uri('favtalks') %]">{{Favorite Talks}}</a></li>
+  </ul>
+</nav>
+
 <section class="user-search">
   <h1>[% loc('Search for users') %]</h1>
 

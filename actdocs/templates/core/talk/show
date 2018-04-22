@@ -1,14 +1,23 @@
 [% INCLUDE js/mytalks.js %]
 
+<nav class="sub-nav">
+  <ul>
+    <li><a href="[% make_uri('talks') %]">Talks</a></li>
+    [% IF global.request.user %]
+      <li><a href="[% make_uri('favtalks') %]">{{Favorite Talks}}</a></li>
+    [% END %]
+    [% IF global.request.user.is_talks_admin || global.request.user.user_id == user_id %]
+      <li><a href="[% make_uri('edittalk', 'talk_id', talk_id) %]">{{edit}}</a></li>
+    [% END %]
+  </ul>
+</nav>
+
 <section class="talk">
   <h1>[% title ? title : 'Talk ' _ talk_id %]</h1>
   <dl class="talk_info">
     <dt>{{By}}</dt>
     <dd>
       [% user_info(user) %]
-      [% IF global.request.user.is_talks_admin || global.request.user.user_id == user_id %]
-        (<a href="[% make_uri('edittalk', 'talk_id', talk_id) %]">{{edit}}</a>)
-      [% END %]
       [% IF user.pm_group %]
         {{from}}
         [% IF user.pm_group_url %]
@@ -82,9 +91,9 @@
     <form method="post" action="[% make_uri('updatemytalks') %]" class="form-horizontal">
       <input type="hidden" name="talk_id" value="[% talk_id %]">
       [% IF global.request.user.is_my_talk(talk_id) %]
-        <button type="submit" class="button" name="mt-[% talk_id %]" value="[% talk_id %]">{{add to personal schedule}}</button>
-      [% ELSE %]
         <button type="submit" class="button -danger">{{remove from personal schedule}}</button>
+      [% ELSE %]
+        <button type="submit" class="button" name="mt-[% talk_id %]" value="[% talk_id %]">{{add to personal schedule}}</button>
       [% END %]
     </form>
   [% END %]

@@ -1,5 +1,18 @@
 [% WRAPPER ui title = loc("Main private page") %]
 
+<nav class="sub-nav">
+  <ul>
+    <li><a href="[% make_uri('search') %]">{{Search}}</a></li>
+    <li><a href="[% make_uri('talks') %]">Talks</a></li>
+    <li><a href="[% make_uri('favtalks') %]">{{Favorite Talks}}</a></li>
+    [% IF global.request.user.is_users_admin %]
+      <li><a href="[% make_uri('export') %]">{{CSV export}}</a></li>
+      <li><a href="[% make_uri('confirm_attend') %]">{{Confirm Attendance}}</a></li>
+      <li><a href="[% make_uri('create') %]">{{Register a new user}}</a></li>
+    [% END %]
+  </ul>
+</nav>
+
 <section class="user-profile">
   <h1>Your profile</h1>
   <p class="user-profile_intro">
@@ -48,16 +61,18 @@
       [% IF global.config.payment_type != "NONE" %]
         [% IF global.config.payment_open %]
             [% UNLESS global.request.user.has_paid %]
-              <li><a href="[% make_uri('purchase') %]">
-              [%- IF !global.config.registration_gratis -%]
-              {{purchase your conference ticket}}
-              [%- ELSE -%]
-              {{confirm your participation}}
-              [%- END -%]
-              </a><br /></li>
+              <li>
+                <a href="[% make_uri('purchase') %]">
+                  [%- IF !global.config.registration_gratis -%]
+                    {{purchase your conference ticket}}
+                  [%- ELSE -%]
+                    {{confirm your participation}}
+                  [%- END -%]
+                </a>
+              </li>
             [% END %]
             [% IF additional_purchase %]
-              <li><a href="[% make_uri('purchase') %]">{{make additional purchases}}</a><br /></li>
+              <li><a href="[% make_uri('purchase') %]">{{make additional purchases}}</a></li>
             [% END %]
         [% END %]
         [% IF orders.size %]
@@ -65,10 +80,10 @@
         [% END %]
       [% END %]
     [% ELSIF !global.config.closed %]
-      <li><a href="[% make_uri('register') %]">{{register for this conference}}</a><br /></li>
+      <li><a href="[% make_uri('register') %]">{{register for this conference}}</a></li>
     [% END %]
-    <li><a href="[% make_uri('change') %]">{{update your information}}</a><br /></li>
-    <li><a href="[% make_uri('photo') %]">{{manage your photo}}</a><br /></li>
+    <li><a href="[% make_uri('change') %]">{{update your information}}</a></li>
+    <li><a href="[% make_uri('photo') %]">{{manage your photo}}</a></li>
     <li><a href="[% make_uri('changepwd') %]">{{change your password}}</a></li>
     [% IF global.request.conference AND talks.size %]
       <li>
@@ -81,7 +96,7 @@
       </li>
     [% END %]
     [% IF global.config.talks_submissions_open AND global.request.user.has_registered %]
-      <li><a href="[% make_uri('newtalk') %]">{{submit a talk}}</a><br /></li>
+      <li><a href="[% make_uri('newtalk') %]">{{submit a talk}}</a></li>
     [% END %]
     <li><a href="[% make_uri('logout') %]">{{log out}}</a></li>
     [% IF can_unregister %]

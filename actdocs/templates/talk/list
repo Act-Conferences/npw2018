@@ -2,81 +2,84 @@
    ELSE;   title = loc("List of talks");
    END;
    WRAPPER ui title = title %]
-<div class="container npwsingle">
-	<section id="register" class="fsection section__register">
-		<div class="section-content-wrapper">
-		  	<h2>Talks</h2>
-			<p>
-				[% IF talks_total == 0 %]
-					{{No talk was submitted yet.}}
-				[% ELSE %]
-			 		{{Submitted talks:}} [% talks_total %]<br />
-					{{Accepted talks:}} [% talks_accepted %]
-				[% END %]
-			</p>
-			
-			[% IF global.request.user.is_talks_admin || global.request.user.has_talk %]
-				<p>
-					{{Accepted talks are shown in bold type.}}
-				</p>
-			[% END %]
-			
-			[% IF global.request.user.is_talks_admin %]
-				<p>
-					{{Total duration of accepted talks:}}
-					[% talks_duration div 60 %] {{hours}}
-					[% talks_duration % 60 %] {{minutes}}
-				 	<br>
-				 	{{Accepted lightning talks:}}
-				 	[% talks_lightning %]
-				</p>
-			[% END %]
 
-			[% IF !tag AND tagcloud %]
-			 	<h2>{{Tags}}</h2>
-			  	[% tagcloud %]
-			  	<br>
-			[% END %]
+<nav class="sub-nav">
+  [% IF global.request.user %]
+    <li><a href="[% make_uri('favtalks') %]">{{Favorite Talks}}</a></li>
+  [% END %]
+  <li><a href="[% make_uri('newtalk') %]">{{submit a talk}}</a></li>
+</nav>
 
-			[% IF tracks.size;
-				 first = 0;
-				 FOREACH tr = tracks;
-				   NEXT UNLESS tr.track_id AND tr.talks.size;
-				   UNLESS first;
-					 first = 1 %]
-					 <h2>{{Tracks}}</h2>
-					 <ul>
-				   [% END %]
-				   <li><a href="#[% tr.track_id %]">[% tr.title %]</a></li>
-				 [% END; IF first %]</ul>[% END %]
-			[% END %]
-			[% IF global.request.user.is_talks_admin %]
-			<form method="POST" action="[% global.request.r.uri %]">
-				[% END %]
-				[% IF tracks.size != 0;
-					 FOREACH tr = tracks;
-					   IF tr.talks.size;
-						 IF tr.track_id %]
-						   <a name="[% tr.track_id %]" ><h2>[% tr.title %]</h2></a>
-						   <p>[% tr.description %]</p>
-						   [% PROCESS talk/talk_list talks = tr.talks;
-						 ELSE %] 
-						   <h2>{{No track}}</h2>
-						  [% PROCESS talk/talk_list talks = tr.talks;
-						 END;
-					   END;
-					 END;
-				  ELSE;    
-					PROCESS talk/talk_list talks = talks;
-				  END %]
-				[% IF global.request.user.is_talks_admin %]
-				<br />
-				 [% IF talks_total != 0 %]
-				<input type="submit" name="ok" value="{{Update}}" />
-				 [% END %]
-			</form>
-		</div>
-	</section>
-</div>
-[% END %]
+<section class="talks-list">
+  <h1>Talks</h1>
+  <p class="talks-list_stats">
+    [% IF talks_total == 0 %]
+      {{No talk was submitted yet.}}
+    [% ELSE %]
+      {{Submitted talks:}} [% talks_total %]. {{Accepted talks:}} [% talks_accepted %]
+    [% END %]
+  </p>
+
+  [% IF global.request.user.is_talks_admin %]
+    <p class="talks-list_duration">
+      {{Total duration of accepted talks:}}
+      [% talks_duration div 60 %] {{hours}}
+      [% talks_duration % 60 %] {{minutes}}.
+      {{Accepted lightning talks:}}
+      [% talks_lightning %].
+    </p>
+  [% END %]
+
+  [% IF global.request.user.is_talks_admin || global.request.user.has_talk %]
+    <p>{{Accepted talks are shown in bold type.}}</p>
+  [% END %]
+
+  [% IF !tag AND tagcloud %]
+    <h2>{{Tags}}</h2>
+    <div class="talks-list_tag-cloud">[% tagcloud %]</div>
+  [% END %]
+
+  [% IF tracks.size;
+    first = 0;
+    FOREACH tr = tracks;
+      NEXT UNLESS tr.track_id AND tr.talks.size;
+      UNLESS first;
+      first = 1 %]
+      <h2>{{Tracks}}</h2>
+      <ul>
+        [% END %]
+        <li><a href="#[% tr.track_id %]">[% tr.title %]</a></li>
+        [% END; IF first %]
+      </ul>
+    [% END %]
+  [% END %]
+
+  [% IF global.request.user.is_talks_admin %]
+    <form method="post" action="[% global.request.r.uri %]">
+  [% END %]
+
+  [% IF tracks.size != 0;
+    FOREACH tr = tracks;
+      IF tr.talks.size;
+        IF tr.track_id %]
+          <a name="[% tr.track_id %]"><h2>[% tr.title %]</h2></a>
+          <p>[% tr.description %]</p>
+          [% PROCESS talk/talk_list talks = tr.talks;
+        ELSE %]
+          <h2>{{No track}}</h2>
+          [% PROCESS talk/talk_list talks = tr.talks;
+        END;
+      END;
+    END;
+  ELSE;
+    PROCESS talk/talk_list talks = talks;
+  END %]
+
+  [% IF global.request.user.is_talks_admin %]
+    [% IF talks_total != 0 %]
+      <input type="submit" name="ok" value="{{Update}}">
+    [% END %]
+    </form>
+  [% END %]
+</section>
 [% END %]
