@@ -36,15 +36,14 @@
             [% UNLESS stats.towns.${c.iso} %][% NEXT %][% END %]
               <td>
                 <table class="table">
-                  [% FOREACH t = stats.towns.${c.iso} %]
-                    [% IF loop.count == 1 %]
-                      <thead>
+                  <tbody>
+                    [% FOREACH t = stats.towns.${c.iso} %]
+                      [% IF loop.count == 1 %]
                         <tr>
-                          <th><a href="[% make_uri('search', 'country', c.iso) %]">[% c.name %]</a> [% c.count %]&nbsp;([% c.committed %])</th>
+                          <td class="user-stats_country-name"><b><a href="[% make_uri('search', 'country', c.iso) %]">[% c.name %]</a></b></td>
+                          <td class="user-stats_country-count"><b>[% c.count %]&nbsp;([% c.committed %])</b></td>
                         </tr>
-                      </thead>
-                      <tbody>
-                    [% END %]
+                      [% END %]
                       <tr>
                         <td><a href="[% make_uri('search', 'town', t.name, 'country', c.iso) %]">[% t.name %]</a></td>
                         <td class="text-right">[% t.count %]&nbsp;([% t.committed %])</td>
@@ -85,13 +84,8 @@
               [% '&nbsp;' UNLESS stats.pm.size %]
               [% FOREACH pm = stats.pm %]
                 <tr>
-                  [% IF loop.count == 1 %]
-                    <th><a href="[% make_uri('search', 'pm_group', pm.name) %]">[% pm.name %]</a></th>
-                    <th class="text-right">[% pm.count %]&nbsp;([% pm.committed %])</th>
-                  [% ELSE %]
-                    <td><a href="[% make_uri('search', 'pm_group', pm.name) %]">[% pm.name %]</a></td>
-                    <td class="text-right">[% pm.count %]&nbsp;([% pm.committed %])</td>
-                  [% END %]
+                  <td><a href="[% make_uri('search', 'pm_group', pm.name) %]">[% pm.name %]</a></td>
+                  <td class="text-right">[% pm.count %]&nbsp;([% pm.committed %])</td>
                 </tr>
               [% END %]
             </table>
