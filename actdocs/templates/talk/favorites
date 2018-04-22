@@ -4,6 +4,7 @@
   <ul>
     <li><a href="[% make_uri('talks') %]">Talks</a></li>
     <li class="active"><a href="[% make_uri('favtalks') %]">{{Favorite Talks}}</a></li>
+    <li><a href="[% make_uri('schedule') %]">{{Schedule}}</a></li>
     <li><a href="[% make_uri('newtalk') %]">{{submit a talk}}</a></li>
   </ul>
 </nav>
