@@ -17,7 +17,7 @@
       <li><a href="[% make_uri('csv/payments') %]">{{Payments}} (CSV)</a></li>
       <li><a href="[% make_uri('csv/payment_items') %]">{{Payment Details}} (CSV)</a></li>
     [% END %]
-    <a href="[% make_uri('logout') %]">{{Logout}}</a>
+    <li><a href="[% make_uri('logout') %]">{{Logout}}</a></li>
   </ul>
 </nav>
 
