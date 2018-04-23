@@ -32,7 +32,6 @@
 
     <div class="submit-wrap">
       <button type="submit" class="button" name="twostepsubmit" value="Register">Register</button>
-      <a href="[% make_uri('main') %]" class="button -link">Log in</a>
     </div>
   </form>
 </section>
