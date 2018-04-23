@@ -7,10 +7,6 @@
     <p class="info-box">{{Sorry, this conference is over.}}</p>
   [% ELSE %]
     <p>{{Please create your user below.}}</p>
-    [% MACRO user_info_x(user)
-      BLOCK;
-      %]<a href="[% user.most_recent_participation.url %]user/[% user.user_id %]">[% user_info_base(user) %]</a>
-    [% END %]
 
     [% PROCESS error
       msgs = {
@@ -27,17 +23,18 @@
       }
     %]
 
-    [% IF duplicates.size ;
-        "<ul>";
-        FOREACH u IN duplicates ;
-          "<li>";
-          user_info_x(u);
-          IF ! u.email_hide ; " &lt;"; u.email; "&gt;" ; END ;
-          " ("; u.country_name;
-          ")</li>";
-        END;
-        "</ul>";
-      %]
+    [% IF duplicates.size %]
+      <ul class="user-add_duplicates">
+        [% FOREACH u IN duplicates %]
+          <li>
+            <a href="[% make_uri_info('user', user.user_id) %]">
+              [% user_info_base(user) %]
+              [% IF ! u.email_hide ; " - "; u.email; END %]
+              - [% u.country_name %]
+            </a>
+          </li>
+        [% END %]
+      </ul>
       <p>[% loc("Use the links above to check if you are one of those.", make_uri('main')) %]</p>
     [% END %]
 
