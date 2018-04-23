@@ -1,12 +1,15 @@
 [% USE date %]
+
 <section id="register" class="user-register">
-  <h2>Register</h2>
+  <h1>Register</h1>
   [% IF date.now > end_date %]
     <p>{{Sorry, this conference is over.}}</p>
   [% ELSE %]
     <p>[% loc('To register to the <name> conference', global.conference.name) %]</p>
     <form method="post" action="[% global.request.r.uri %]">
-      <input type="submit" class="button" name="join" value="{{Join}} [% global.conference.name %]">
+      <div class="submit-wrap>
+        <input type="submit" class="button" name="join" value="{{Join}} [% global.conference.name %]">{{Join}} [% global.conference.name %]</button>
+      </div>
     </form>
   [% END %]
 </section>

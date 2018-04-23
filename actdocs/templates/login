@@ -1,5 +1,12 @@
 [% WRAPPER ui title = loc("Log in") %]
 
+<nav class="sub-nav">
+  <ul>
+    <li class="active"><a href="[% make_uri('main') %]">Login</a></li>
+    <li><a href="[% make_uri('register') %]">{{Register}}</a></li>
+  </ul>
+</nav>
+
 <section id="login">
   <h1>Login</h1>
 
@@ -27,7 +34,6 @@
 
     <div class="submit-wrap">
       <button type="submit" name="join" value="{{Submit}}" class="button">{{Log in}}</button>
-      <a href="[% make_uri('register') %]" class="button -link">{{Register}}</a>
     </div>
   </form>
 
