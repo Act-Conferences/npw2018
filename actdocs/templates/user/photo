@@ -18,7 +18,7 @@
       <p class="user-photo_photo">{{No photo}}</p>
     [% END %]
 
-    <p class="info-box">{{This photo will probably end up on the conference who's who,}}</p>
+    <p>{{This photo will probably end up on the conference who's who,}}</p>
 
     <div class="input-wrap -text">
       <input type="file" name="photo">
@@ -29,7 +29,6 @@
     [%- IF global.request.user.photo_name %]
       <button type="submit" class="button -danger" name="delete" value="{{Delete Photo}}">{{Delete Photo}}</button>
     [% END %]
-      <a href="[% make_uri('main') %]" class="button -link">View your profile</a>
     </div>
   </form>
 </section>

@@ -35,7 +35,7 @@
           [% END %]
           [% talk_link(t) %]
           [% talk_modify_link(t) %]
-          [% IF t.url_abstract || t.url_talk %]<br>[[% END %]
+          [% IF t.url_abstract || t.url_talk %]-[% END %]
           [% IF t.url_abstract %]
             <a href="[% t.url_abstract %]">{{abstract (link)}}</a>
           [% END %]
@@ -43,7 +43,6 @@
             [% IF t.url_abstract %]-[% END %]
             <a href="[% t.url_talk %]">{{talk (link)}}</a>
           [% END %]
-          [% IF t.url_abstract || t.url_talk %]][% END %]
         </td>
         <td>
           [% IF t.lightning %]

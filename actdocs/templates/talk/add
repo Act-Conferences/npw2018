@@ -18,9 +18,9 @@
 
 <section class="user-talk-submit">
   [% IF talk_id %]
-    <h1>Edit talk "[% talk_id %]"</h1>
+    <h1>Edit "[% title || talk_id %]"</h1>
   [% ELSE %]
-    <h1>Submit talk</h1>
+    <h1>Submit a talk</h1>
   [% END %]
 
   [% PROCESS error
