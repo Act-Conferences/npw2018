@@ -19,7 +19,7 @@
     %]
 
     <div class="input-wrap -text">
-      <input type="text" class="npw-input" id="form-email" placeholder="Email" name="email" value="[% email %]" autofocus>
+      <input type="text" id="form-email" placeholder="Email" name="email" value="[% email %]" autofocus>
     </div>
 
     <div class="submit-wrap">
