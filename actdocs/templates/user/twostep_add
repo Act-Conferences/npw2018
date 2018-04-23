@@ -4,6 +4,7 @@
   <ul>
     <li><a href="[% make_uri('main') %]">Login</a></li>
     <li class="active"><a href="[% make_uri('register') %]">{{Register}}</a></li>
+    <li><a href="[% make_uri('changepwd') %]">Forgot password</a></li>
   </ul>
 </nav>
 

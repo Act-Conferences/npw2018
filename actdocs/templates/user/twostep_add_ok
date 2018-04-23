@@ -1,11 +1,15 @@
 [% WRAPPER ui title = loc("Confirmation email sent") %]
-<div class="container npwsingle">
-	<section id="register" class="fsection section__confirmation_sent">
-		<div class="section-content-wrapper">
-			<h2>Confirmation sent</h2>
-			<p>[% loc("An email has been sent to <email>. Click on the link in the email to", email) %]</p>
-		</div>
-	</section>
-</div>
+
+<nav class="sub-nav">
+  <ul>
+    <li><a href="[% make_uri('main') %]">Login</a></li>
+    <li class="active"><a href="[% make_uri('register') %]">{{Register}}</a></li>
+  </ul>
+</nav>
+
+<section id="register" class="user-register">
+  <h1>Confirmation sent</h1>
+  <p>[% loc("An email has been sent to <email>. Click on the link in the email to", email) %]</p>
+</section>
 
 [% END %]
