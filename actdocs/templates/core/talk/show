@@ -61,23 +61,22 @@
     [% END %]
   </dl>
 
+  <h2>Abstract</h2>
+  <p class="talk_abstract">[% expand(chunked_abstract) | html_line_break %]</p>
+
   <div class="talk_tags">[% showtags(tags, 'talks') %]</div>
 
   [% IF url_abstract || url_talk %]
     <p>{{You can find more information on the speaker's site:}}</p>
-    <dl class="talk_resources">
+    <ul class="talk_resources">
       [% IF url_abstract %]
-        <dt>{{Abstract:}}</dt>
-        <dd><a href="[% url_abstract %]">[% url_abstract %]</a></dd>
+        <li><span>{{Abstract:}}</span> <a href="[% url_abstract %]">[% url_abstract %]</a></li>
       [% END %]
       [% IF url_talk %]
-        <dt>{{Talk:}}</dt>
-        <dd><a href="[% url_talk %]">[% url_talk %]</a></dd>
+        <li><span>{{Talk:}}</span> <a href="[% url_talk %]">[% url_talk %]</a></li>
       [% END %]
-    </dl>
+    </ul>
   [% END %]
-
-  <p class="talk_abstract">[% expand(chunked_abstract) | html_line_break %]</p>
 
   [% IF attendees.size %]
     <h2>{{Attended by:}}</h2>
