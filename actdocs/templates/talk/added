@@ -1,10 +1,12 @@
 [% WRAPPER ui title = loc("Talk submitted") %]
 
 <nav class="sub-nav">
-  <li><a href="[% make_uri('talks') %]">Talks</a></li>
-  <li><a href="[% make_uri('favtalks') %]">{{Favorite Talks}}</a></li>
-  <li><a href="[% make_uri_info('talk', talk_id) %]">{{View}}</a></li>
-  <li><a href="[% make_uri('newtalk') %]">{{submit a talk}}</a></li>
+  <ul>
+    <li><a href="[% make_uri('talks') %]">Talks</a></li>
+    <li><a href="[% make_uri('favtalks') %]">{{Favorite Talks}}</a></li>
+    <li><a href="[% make_uri_info('talk', talk_id) %]">{{View}}</a></li>
+    <li><a href="[% make_uri('newtalk') %]">{{submit a talk}}</a></li>
+  </ul>
 </nav>
 
 <section class="user-talk-submitted">
