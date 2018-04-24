@@ -1,39 +1,51 @@
-<table class="table">
-  <thead>
-    <tr>
-      <th>{{Order number}}</th>
-      <th>{{Payment date}}</th>
-      <th>{{Description}}</th>
-      <th>{{Amount paid}}</th>
-      [% IF global.config.payment_invoices %]<th>{{Invoice #}}</th>[% END %]
-    </tr>
-  </thead>
-  <tbody>
-    [% FOREACH order IN orders %]
+<nav class="sub-nav">
+  <ul>
+    <li class="active"><a href="[% make_uri('orders') %]">Orders</a></li>
+    <li><a href="[% make_uri('payments') %]">{{Payments}}</a></li>
+    <li><a href="[% make_uri('csv/payments') %]">{{Payments}} (CSV)</a></li>
+    <li><a href="[% make_uri('csv/payment_items') %]">{{Payment Details}} (CSV)</a></li>
+  </ul>
+</nav>
+
+<section class="orders">
+  <h1>Orders</h1>
+  <table class="table">
+    <thead>
       <tr>
-        <td>[% order.order_id %]</td>
-        <td>[% date_format(order.datetime, 'datetime_short') %]</td>
-        <td>
-          [% IF order.items.size == 1 %]
-            [% order.items.0.name %]
-          [% ELSE %]
-            <table class="table">
-              <tbody>
-                [% FOREACH item IN order.items %]
-                  <tr>
-                    <td>[% item.name %]</td>
-                    <td>[% item.amount %] [% order.currency %]</td>
-                  </tr>
-                [% END %]
-              </tbody>
-            </table>
-          [% END %]
-        </td>
-        <td>[% order.amount %] [% order.currency %]</td>
-        [% IF global.config.payment_invoices %]
-          <td><a href="[% make_uri_info('invoice', order.order_id) %]">{{Invoice}}</a></td>
-        [% END %]
+        <th>{{Order number}}</th>
+        <th>{{Payment date}}</th>
+        <th>{{Description}}</th>
+        <th>{{Amount paid}}</th>
+        [% IF global.config.payment_invoices %]<th>{{Invoice #}}</th>[% END %]
       </tr>
-    [% END %]
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      [% FOREACH order IN orders %]
+        <tr>
+          <td>[% order.order_id %]</td>
+          <td>[% date_format(order.datetime, 'datetime_short') %]</td>
+          <td>
+            [% IF order.items.size == 1 %]
+              [% order.items.0.name %]
+            [% ELSE %]
+              <table class="table">
+                <tbody>
+                  [% FOREACH item IN order.items %]
+                    <tr>
+                      <td>[% item.name %]</td>
+                      <td>[% item.amount %] [% order.currency %]</td>
+                    </tr>
+                  [% END %]
+                </tbody>
+              </table>
+            [% END %]
+          </td>
+          <td>[% order.amount %] [% order.currency %]</td>
+          [% IF global.config.payment_invoices %]
+            <td><a href="[% make_uri_info('invoice', order.order_id) %]">{{Invoice}}</a></td>
+          [% END %]
+        </tr>
+      [% END %]
+    </tbody>
+  </table>
+</section>

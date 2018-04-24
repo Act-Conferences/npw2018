@@ -10,7 +10,7 @@
       <li><a href="[% make_uri('rights') %]">User management</a></li>
     [% END %]
     [% IF global.request.user.is_treasurer %]
-      <li><a href="[% make_uri('payments') %]">{{Payments}}</a></li>
+      <li><a href="[% make_uri('orders') %]">Orders</a></li>
     [% END %]
     <li><a href="[% make_uri('logout') %]">{{Logout}}</a></li>
   </ul>
