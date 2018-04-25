@@ -7,7 +7,7 @@
   [% ELSE %]
     <p>[% loc('To register to the <name> conference', global.conference.name) %]</p>
     <form method="post" action="[% global.request.r.uri %]">
-      <div class="submit-wrap>
+      <div class="submit-wrap">
         <input type="submit" class="button" name="join" value="{{Join}} [% global.conference.name %]">{{Join}} [% global.conference.name %]</button>
       </div>
     </form>
