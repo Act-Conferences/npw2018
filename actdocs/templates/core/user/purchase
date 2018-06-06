@@ -1,3 +1,73 @@
+<section class="user-purchase">
+  <h1>Purchase ticket</h1>
+
+  <form method="post" action="[% global.request.r.uri %]">
+    <table class="table" id="act-purchase">
+      [% FOREACH p IN productlist %]
+        [% NEXT IF p == 'registration' AND global.request.user.has_paid %]
+        <tr class="act-product">
+          <td class="text-right act-select">
+            <div class="input-wrap -checkbox">
+              <input type="checkbox" value="[% p %]" id="product-[% p %]" name="product-[% p %]"[% ' checked="checked"' IF products.$p.checked %]>
+            </div>
+          </td>
+          <td class="act-description">
+            <label for="product-[% p %]">[% products.$p.name %]</label>
+          </td>
+        [% IF products.$p.prices.size == 1 %]
+          <td class="text-right act-amount">[% products.$p.prices.0.amount %]</td>
+          <td class="act-currency">[% currency %]</td>
+        </tr>
+        [% ELSE %]
+          <td colspan="2">&nbsp;</td>
+        </tr>
+          [% ispromo = 0 %]
+          [% FOREACH i IN products.$p.prices %]
+            [% UNLESS i.promocode AND ispromo %]
+              <tr class="act-price">
+                <td class="act-select">&nbsp;</td>
+              [% IF i.promocode; ispromo = 1 %]
+                <td class="act-description"><label for="promo-[% p %]">{{Promotion code}}</label></td>
+                <td class="act-amount">
+                  <div class="input-wrap -text">
+                    <input type="text" id="promo-[% p %]" name="promo-[% p %]" size="20" maxlength="20" value="[% promo.$p %]" /></td>
+                  </div>
+              [% ELSE %]
+                <td class="act-desciption">
+                  <div class="input-wrap -radio">
+                    <input type="radio" id="price-[% p %]-[% i.price_id %]" name="price-[% p %]" value="[% i.price_id %]"[% ' checked="checked"' IF i.checked %] />
+                  </div>
+                  <label for="price-[% p %]-[% i.price_id %]"> [% i.name %]
+                </td>
+                <td class="text-right act-amount">[% i.amount %]</td>
+              [% END %]
+                <td class="act-currency">[% currency %]</td>
+              </tr>
+            [% END %]
+          [% END %]
+        [% END %]
+      [% END %]
+    </table>
+
+    <p>In addition to the regular ticket price, you can add any voulenteer donatations below:</p>
+    <div class="input-wrap -text">
+      <input name="donation" id="form-donation" type="text" size="5" maxlength="5" value="[% donation %]">
+      <span>[% currency %]</span>
+    </div>
+
+    <div class="submit-wrap" id="total">
+      <b class="text-pre">{{Total}}</b>
+      <b class="text-amount" id="totalamount">0</b>
+      <b class="text-currency">[% currency %]</b>
+      <button type="submit" name="purchase">{{Buy now!}}</button>
+    </div>
+  </form>
+
+  <p>{{Please note that everything regarding your bank account and credit card number}}</p>
+
+  [% file = "core/bank/${global.config.payment_type}" ; PROCESS $file %]
+</section>
+
 <script type="text/javascript">
 if (window.act) {
     var amounts = [% amounts %];
@@ -49,71 +119,3 @@ if (window.act) {
     });
 }
 </script>
-<div align="center">
-<form method="POST" action="[% global.request.r.uri %]">
-
-<table border="1" cellpadding="10" cellspacing="0"><tr><td>
-<table border="0" cellpadding="0" cellspacing="10" id="act-purchase">
-
-[% FOREACH p IN productlist %]
-    [% NEXT IF p == 'registration' AND global.request.user.has_paid %]
-    <tr class="act-product">
-        <td align="right" class="act-select"><input type="checkbox" value="[% p %]" id="product-[% p %]" name="product-[% p %]"[% ' checked="checked"' IF products.$p.checked %] /></td>
-        <td class="act-description"><label for="product-[% p %]">[% products.$p.name %]</label></td>
-[% IF products.$p.prices.size == 1 %]
-        <td align="right" class="act-amount">[% products.$p.prices.0.amount %]</td>
-        <td class="act-currency">[% currency %]</td>
-    </tr>
-[% ELSE %]
-        <td></td>
-        <td></td>
-    </tr>
-    [% ispromo = 0;
-       FOREACH i IN products.$p.prices;
-         UNLESS i.promocode AND ispromo %]
-        <tr class="act-price">
-            <td class="act-select"></td>
-           [% IF i.promocode; ispromo = 1 %]
-              <td class="act-description"><label for="promo-[% p %]">{{Promotion code}}</label></td>
-              <td class="act-amount"><input type="text" id="promo-[% p %]" name="promo-[% p %]" size="20" maxlength="20" value="[% promo.$p %]" /></td>
-           [% ELSE %]
-              <td class="act-desciption"><input type="radio" id="price-[% p %]-[% i.price_id %]" name="price-[% p %]" value="[% i.price_id %]"[% ' checked="checked"' IF i.checked %] />
-                  <label for="price-[% p %]-[% i.price_id %]"> [% i.name %]</td>
-              <td align="right" class="act-amount">[% i.amount %]</td>
-           [% END %]
-        <td class="act-currency">[% currency %]</td>
-        </tr>
-        [% END %]
-    [% END %]
-[% END %]
-[% END %]
-<tr class="act-donation">
-   <td colspan="2" class="act-description">
-      <label for="form-donation">{{Donation}}:</label>
-   </td>
-   <td class="act-amount">
-      <input name="donation" id="form-donation" type="text" size="5" maxlength="5" value="[% donation %]" />
-   </td>
-   <td class="act-currency">[% currency %]</td>
-</tr>
-<tr id="total" style="visibility: hidden">
-    <td colspan="2" class="act-description"><strong>{{Total}}</strong></td>
-    <td align="right" class="act-amount"><strong><span id="totalamount">0</span></strong></td>
-    <td class="act-currency">[% currency %]</td>
-</tr>
-<tr class="act-purchase-submit">
-   <td colspan="4" align="right">
-      <input type="submit" name="purchase" value="{{Buy now!}}" />
-   </td>
-</tr>
-</table>
-</td></tr></table>
-
-</form>
-</div>
-
-<p>
- {{Please note that everything regarding your bank account and credit card number}}
-</p>
-
-[% file = "core/bank/${global.config.payment_type}" ; PROCESS $file %]
