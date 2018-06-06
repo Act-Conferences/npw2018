@@ -45,9 +45,10 @@
       [% END %]
     </table>
 
-    <p>In addition to the regular ticket price, you can add any voulenteer donatations below:</p>
+    <p>In addition to the regular ticket price, you can add any voulenteer donation below:</p>
     <div class="input-wrap -text">
-      <input name="donation" type="text" value="[% donation %]" style="max-width:7rem">
+      <span>Donation</span>
+      <input name="donation" type="text" value="[% donation %]" style="max-width:5em">
       <span>[% currency %]</span>
     </div>
 
