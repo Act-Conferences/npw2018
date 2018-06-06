@@ -65,53 +65,46 @@
 </section>
 
 <script type="text/javascript">
-if (window.act) {
-    var amounts = [% amounts %];
-    $(function() {
-        get_radios = function(product) { return $(":radio[name=price-" + product +"]") };
-        compute_total = function() { 
-            var total = 0;
-            $(":checkbox[checked]").each(function() {
-                var product = $(this).val();
-                if (amounts[product]) {
-                    if (amounts[product].single)
-                        total += parseInt(amounts[product][1]);
-                    else
-                        get_radios(product).filter("[checked]").each(function() {
-                            var price_id = $(this).val();
-                            if (amounts[product][price_id])
-                                total += parseInt(amounts[product][price_id]);
-                        });
-                }
-            });
-            var donation = $("#form-donation").val();
-            if (donation) {
-                donation = parseInt(donation);
-                if (donation > 0) total += donation;
-            }
-            $("#totalamount").text(total);
-        };
-        $(":checkbox").each(function() {
-            var cb = $(this);
-            var radios = get_radios(cb.val());
-            // checking a price: check corresponding product checkbox
-            radios.click(function() {
-                    cb.attr('checked',true);
-                    compute_total();
-                   });
-            // checking a product: check 1st price
-            // unchecking a product: uncheck all its prices
-            cb.click(function() {
-                if (cb.attr('checked'))
-                    radios.filter(':first').attr('checked',true);
-                else
-                    radios.attr('checked',false)
-                compute_total();
-            });
+var amounts = [% amounts %];
+$(function() {
+  var get_radios = function(product) { return $(":radio[name=price-" + product +"]") };
+  var compute_total = function() {
+    var total = parseInt($("#form-donation").val() || "0", 10);
+
+    $(":checkbox[checked]").each(function() {
+      var product = $(this).val();
+      if (!amounts[product]) {
+      }
+      else if (amounts[product].single) {
+        total += parseInt(amounts[product][1]);
+      }
+      else {
+        get_radios(product).filter("[checked]").each(function() {
+          var price_id = $(this).val();
+          if (amounts[product][price_id]) total += parseInt(amounts[product][price_id]);
         });
-        $("#form-donation").change(compute_total);
-        compute_total();
-        $("#total").attr('style', 'visibility: visible');
+      }
     });
-}
+
+    $("#totalamount").text(total);
+    $(".button").attr("disabled", total ? false : true);
+  };
+
+  $(":checkbox").each(function() {
+    var cb = $(this);
+    var radios = get_radios(cb.val());
+    radios.click(function() { cb.attr("checked", true); compute_total(); });
+    cb.click(function() {
+      if (cb.attr("checked")) {
+        radios.filter(":first").attr("checked", true);
+      }
+      else {
+        radios.attr("checked", false)
+      }
+      compute_total();
+    });
+  });
+  $("#form-donation").change(compute_total);
+  compute_total();
+});
 </script>
