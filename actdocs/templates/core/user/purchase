@@ -47,7 +47,7 @@
 
     <p>In addition to the regular ticket price, you can add any voulenteer donatations below:</p>
     <div class="input-wrap -text">
-      <input name="donation" type="text" value="[% donation %]">
+      <input name="donation" type="text" value="[% donation %]" style="max-width:7rem">
       <span>[% currency %]</span>
     </div>
 
@@ -66,16 +66,26 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
-  var computeTotal = function() {
+  var actComputeTotal = function(e) {
     var total = parseInt($("[name=donation]").val() || "0", 10);
-    $("[checked]").each(function() {
+
+    $(":checked").each(function() {
       total += parseInt($(this).attr("data-amount") || "0", 10);
+      $('[name="product-' + this.name.replace(/^price-/, "") + '"]').prop("checked", true);
     });
+
     $(".js-total").text(total);
-    $(".button").attr("disabled", total ? false : true);
+    $(".button").prop("disabled", total ? false : true);
   };
 
-  $("form").on("change", computeTotal);
-  computeTotal();
+  var actCheckboxClick = function(e) {
+    var $radio = $('[name="price-' + this.name.replace(/^product-/, "") + '"]');
+    if (!this.checked) return $radio.prop("checked", false);
+    if (!$radio.filter(":checked").length) return $radio.eq(0).prop("checked", true);
+  };
+
+  $("form").on("change", actComputeTotal);
+  $("form [type=checkbox]").click(actCheckboxClick);
+  actComputeTotal({});
 });
 </script>
