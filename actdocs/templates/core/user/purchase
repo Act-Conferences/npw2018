@@ -53,7 +53,7 @@
     </div>
 
     <div class="submit-wrap">
-      <button class="button" type="submit" name="purchase">{{Buy now!}}</button>
+      <button class="button" type="submit" name="purchase" value="{{Buy now!}}">{{Buy now!}}</button>
       <b class="text-pre">{{Total}}</b>
       <b class="text-amount js-total">0</b>
       <b class="text-currency">[% currency %]</b>
