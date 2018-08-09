@@ -121,6 +121,8 @@
         </p>
         <label>{{Duration}}</label>
         <input name="duration" value="[% duration == 'lightning' ? '' : duration %]" size="3">
+      </div>
+      <div class="input-wrap -text">
         <input type="checkbox" name="is_lightning"[% ' checked' IF duration=='lightning' %]> {{Lightning talk}}
       </div>
     [% ELSE %]

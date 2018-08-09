@@ -31,7 +31,7 @@
 
     <dt>{{Date:}}</dt>
     [% IF lightning %]
-      <dd>{{Lightning talk}}>/dd>
+      <dd>{{Lightning talk}}</dd>
     [% ELSE %]
       <dd>
         [% IF datetime && ( global.config.talks_show_schedule || global.request.user.is_talks_admin ) %]
